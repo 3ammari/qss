@@ -88,7 +88,7 @@ public class Splash extends ActionBarActivity {
                     if (status.equals("true")){
                         startService(new Intent(Splash.this,MyService.class));
 
-                        Intent intent =new Intent(Splash.this,MainMenu.class);
+                        Intent intent =new Intent(Splash.this,Home.class);
                         startActivity(intent);
                         finish();
                     }

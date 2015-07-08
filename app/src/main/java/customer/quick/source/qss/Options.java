@@ -1,12 +1,16 @@
 package customer.quick.source.qss;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -17,7 +21,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 
 
-public class Options extends ActionBarActivity {
+public class Options extends Fragment {
     EditText oldPasswordField;
     EditText newPasswordField;
     EditText newPasswordField2;
@@ -29,7 +33,57 @@ public class Options extends ActionBarActivity {
     String baseUrl;
     String userID;
     AsyncHttpClient client=new AsyncHttpClient();
+    Context context;
+
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.options,container,false);
+
+        final boolean networkStatus=new GeneralUtilities(context).isNetworkConnected(context);
+        oldPasswordField= (EditText) view.findViewById(R.id.oldPasswordField);
+        newPasswordField= (EditText) view.findViewById(R.id.newPasswordField);
+        newPasswordField2= (EditText) view.findViewById(R.id.newPasswordField2);
+
+        submitButton= (Button) view.findViewById(R.id.submitButton);
+        baseUrl=GeneralUtilities.getFromPrefs(context,GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/api/v1/employee/");
+        userID=GeneralUtilities.getFromPrefs(context,GeneralUtilities.USERID_KEY,"");
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                oldPassword=oldPasswordField.getText().toString();
+                newPassword=newPasswordField.getText().toString();
+                newPassword2=newPasswordField2.getText().toString();
+
+                if (networkStatus){
+                    if(newPassword.equals(newPassword2)&&newPassword.length()>=8){
+                        RequestParams requestParams= new RequestParams();
+                        requestParams.add("oldpassword",oldPassword);
+                        requestParams.add("newpassword",newPassword);
+                        Log.d("xxxxxx",baseUrl+userID+"/changepass");
+                        client.post(context,baseUrl+userID+"/changepass",requestParams,new TextHttpResponseHandler() {
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Log.d("-=-=-=",Integer.toString(statusCode));
+                                try{
+                                    Log.d("-=-=-=",responseString);
+                                }catch (Exception e){
+                                    e.printStackTrace();}
+                            }
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                                Log.d("-=-=-=-=",responseString);
+                            }
+                        });
+                    }
+                }
+
+            }
+        });
+        return view;
+    }
+
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.options);
@@ -103,5 +157,5 @@ public class Options extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

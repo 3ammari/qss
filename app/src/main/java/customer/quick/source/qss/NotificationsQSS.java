@@ -17,51 +17,53 @@ import com.orm.SugarRecord;
  */
 public class NotificationsQSS  {
     Context context;
-    int notificationID;
 
-    public NotificationsQSS(Context context, int notificationID) {
+
+    public NotificationsQSS(Context context) {
         this.context = context;
-        this.notificationID = notificationID;
+
     }
 
-    public void fiveDaysNotification(String serviceType){
+    public void spawnNotification(String title,String msg,int id){
 
         Intent intent = new Intent(context,FindStation.class);
         PendingIntent pendingIntent= PendingIntent.getActivity(context, 0, intent, 0);
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        Notification notification=builder.setContentTitle("Service Reminder").setContentText("your car needs your attention").setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(notificationID).build();
+        Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(++notificationID,notification);
+        notificationManager.notify(id,notification);
 
 
     }
 
-    public void twoDaysNotification(String serviceType){
+  /* */ public void spawnServiceNotifier(String title ,String msg,int id){
 
-        Intent intent = new Intent(context,FindStation.class);
+      Intent intent = new Intent(context,Home.class);
+      PendingIntent pendingIntent= PendingIntent.getActivity(context, 0, intent, 0);
+      Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+      NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+      Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).build();
+      NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+      notification.flags |= Notification.FLAG_AUTO_CANCEL;
+      notificationManager.notify(id,notification);
+
+  }
+
+    public void spawnBroadcastNotifier(String title,String msg,int id){
+        Intent intent = new Intent(context,Home.class);
         PendingIntent pendingIntent= PendingIntent.getActivity(context, 0, intent, 0);
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        Notification notification=builder.setContentTitle("Service Reminder").setContentText("two days to "+serviceType+" date\n find a near station?").setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(notificationID).build();
+        Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(++notificationID,notification);
-    }
+        notificationManager.notify(id,notification);
 
-    public void endOfPeriodNotification(String serviceType){
-        Intent intent = new Intent(context,FindStation.class);
-        PendingIntent pendingIntent= PendingIntent.getActivity(context, 0, intent, 0);
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        Notification notification=builder.setContentTitle("Your service period ended").setContentText("find the closest station").setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(notificationID).build();
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(++notificationID,notification);
     }
 
 }

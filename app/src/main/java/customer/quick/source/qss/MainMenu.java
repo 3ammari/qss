@@ -23,7 +23,8 @@ public class MainMenu extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        //startService(new Intent(MainMenu.this,AlarmsService.class));
+        startService(new Intent(MainMenu.this,AlarmsService.class));
+
         optionButton = (Button) findViewById(R.id.optionsButton);
        // checkStatus= (Button) findViewById(R.id.checkStatus);
         rewards = (Button) findViewById(R.id.rewardsButton);
@@ -52,7 +53,7 @@ public class MainMenu extends ActionBarActivity {
         findStation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   startActivity(new Intent(MainMenu.this,MapActivity.class));
+            startActivity(new Intent(MainMenu.this,FindStation.class));
             }
         });
         garage.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +86,8 @@ public class MainMenu extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.preferences) {
+            startActivity(new Intent(MainMenu.this,PreferencesActivity.class));
             return true;
         }
 

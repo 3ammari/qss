@@ -37,8 +37,8 @@ public class Login extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        usernameField= (EditText) findViewById(R.id.userNameField);
+        setContentView(R.layout.login_designed);
+        usernameField= (EditText) findViewById(R.id.usernameField);
         passwordField= (EditText) findViewById(R.id.passwordField);
         registrationButton= (Button) findViewById(R.id.registrationButton);
         loginButton= (Button) findViewById(R.id.loginButton);
@@ -101,7 +101,7 @@ public class Login extends ActionBarActivity {
                                         GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.PASSWORD_KEY,password);
                                         GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.USERID_KEY,id);
                                         startService(new Intent(Login.this,MyService.class));
-                                        startActivity(new Intent(Login.this,MainMenu.class));
+                                        startActivity(new Intent(Login.this,Home.class));
                                         finish();
                                     }
                                     else{

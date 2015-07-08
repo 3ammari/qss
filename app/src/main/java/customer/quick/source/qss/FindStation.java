@@ -7,12 +7,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //15.608177, 32.496330
-public class FindStation extends FragmentActivity  {
+public class FindStation extends Fragment {
     public static FragmentManager fragmentManager;
     Button goButton;
     Spinner spinner;
@@ -46,10 +49,118 @@ public class FindStation extends FragmentActivity  {
     List<Stations> stationsList;
     ArrayList<String> stationsAddresses;
     int selectedStationIndex;
-    LocationManager locManager;
-    long latCurrent;
-    long lontCurrent;
+    private static View view;
+
     @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
+        if (view != null) {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null)
+                parent.removeView(view);
+        }
+        try {
+            view = inflater.inflate(R.layout.activity_find_station, container, false);
+        } catch (InflateException e) {
+        /* map is already there, just return view as it is */
+        }
+
+        /*View */
+       // view = inflater.inflate(R.layout.activity_find_station,container,false);
+        stationsAddresses = new ArrayList<>();
+        goButton= (Button) view.findViewById(R.id.button);
+        spinner= (Spinner) view.findViewById(R.id.spinner);
+        stationsList = Stations.listAll(Stations.class);
+        for (int i = 0; i <stationsList.size() ; i++) {
+            stationsAddresses.add(stationsList.get(i).getStationLocation());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(super.getActivity(),android.R.layout.simple_spinner_item,stationsAddresses);
+        adapter.setDropDownViewResource(R.layout.spinner_item_customed);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedStationIndex =position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        goButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // MarkerOptions marker = new MarkerOptions().position(new LatLng(stationsList.get(selectedStationIndex).getStationLat(), stationsList.get(selectedStationIndex).getStationLong())).title(stationsList.get(selectedStationIndex).getStationName());
+                MarkerOptions marker = new MarkerOptions().position(new LatLng((double)stationsList.get(selectedStationIndex).getStationLat(),(double)stationsList.get(selectedStationIndex).getStationLong()));
+                map.addMarker(marker);
+               /* CameraUpdate center=
+                        CameraUpdateFactory.newLatLng(new LatLng(latCurrent,
+                                lontCurrent));
+                CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+
+                map.moveCamera(center);*/
+                //  map.animateCamera(zoom);
+                // adding marker
+                // map.addMarker(marker);
+                //CameraUpdate center = CameraUpdateFactory.newLatLng()
+            }
+        });
+
+
+        try {
+            initialize();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            map.setMyLocationEnabled(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return view;
+    }
+
+    private void initialize() {
+        if (map==null) {
+            Fragment fragment= getChildFragmentManager().findFragmentById(R.id.map);
+            mapFragment= (SupportMapFragment) fragment;
+            map=mapFragment.getMap();
+
+            // check if map is created successfully or not
+            if (map==null) {
+                Toast.makeText(super.getActivity(),
+                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+
+
+    }
+
+    public void onDestroyView() {
+        super.onDestroyView();
+
+
+        android.support.v4.app.FragmentManager fm = getActivity().getSupportFragmentManager();
+        SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
+
+        if (fragment!=null) {
+                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                ft.remove(fragment);
+                ft.commit();
+
+        }
+    }
+
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_station);
@@ -57,32 +168,38 @@ public class FindStation extends FragmentActivity  {
         stationsAddresses = new ArrayList<>();
         goButton= (Button) findViewById(R.id.button);
         spinner= (Spinner) findViewById(R.id.spinner);
-       /* stationsList = Stations.listAll(Stations.class);
+        stationsList = Stations.listAll(Stations.class);
         for (int i = 0; i <stationsList.size() ; i++) {
             stationsAddresses.add(stationsList.get(i).getStationLocation());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(FindStation.this,android.R.layout.simple_spinner_item,stationsAddresses);
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        adapter.setDropDownViewResource(R.layout.spinner_item_customed);
         spinner.setAdapter(adapter);
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedStationIndex =position;
             }
-        });*/
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // MarkerOptions marker = new MarkerOptions().position(new LatLng(stationsList.get(selectedStationIndex).getStationLat(), stationsList.get(selectedStationIndex).getStationLong())).title(stationsList.get(selectedStationIndex).getStationName());
-                MarkerOptions marker = new MarkerOptions().position(new LatLng((double)latCurrent,(double)lontCurrent));
+                MarkerOptions marker = new MarkerOptions().position(new LatLng((double)stationsList.get(selectedStationIndex).getStationLat(),(double)stationsList.get(selectedStationIndex).getStationLong()));
                 map.addMarker(marker);
-                CameraUpdate center=
+               *//* CameraUpdate center=
                         CameraUpdateFactory.newLatLng(new LatLng(latCurrent,
                                 lontCurrent));
                 CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
 
-                map.moveCamera(center);
+                map.moveCamera(center);*//*
               //  map.animateCamera(zoom);
         // adding marker
        // map.addMarker(marker);
@@ -94,90 +211,13 @@ public class FindStation extends FragmentActivity  {
             mapFragment= (SupportMapFragment) fragment;
         map=mapFragment.getMap();
 
-        /*try {Thread thread= new Thread(new Runnable(){
-            @Override
-            public void run() {
-                Log.d("Runnable is running","f");
-                GPSTracker gpsTracker = new GPSTracker(FindStation.this);
-                if (gpsTracker.canGetLocation()){
-                    lontCurrent= (long) gpsTracker.getLongitude();
-                    latCurrent = (long) gpsTracker.getLatitude();
-                }
-            }
-        });
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         map.setMyLocationEnabled(true);
 
 
-        GPSTracker gpsTracker = new GPSTracker(FindStation.this);
-        if (gpsTracker.canGetLocation()){
-            Log.d("Runnable is running","f");
-            lontCurrent= (long) gpsTracker.getLongitude();
-            latCurrent = (long) gpsTracker.getLatitude();}else {gpsTracker.showSettingsAlert();}
-
-        CameraUpdate center=
-                CameraUpdateFactory.newLatLng(new LatLng(latCurrent,
-                        lontCurrent));
-
-        CameraUpdate zoom=CameraUpdateFactory.zoomIn();
-      /*  try {Log.d("camera","waiting before moving to center");
-            Thread.sleep(20000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        map.animateCamera(center);
-        Log.d("camera","moved to center");
-       /* try {
-            Log.d("camera","waiting before zooming");
-            Thread.sleep(5000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        map.animateCamera(zoom);
-        Log.d("camera","zoomed");
-
-
-
 
 
     }
 
-    private final LocationListener locationListener = new LocationListener() {
-
-        public void onLocationChanged(Location location) {
-            updateWithNewLocation(location);
-        }
-
-        public void onProviderDisabled(String provider) {
-            updateWithNewLocation(null);
-        }
-
-        public void onProviderEnabled(String provider) {}
-
-        public void onStatusChanged(String provider,int status,Bundle extras){}
-    };
-
-    private void updateWithNewLocation(Location location) {
-
-        String latLongString = "";
-        if (location != null) {
-            long lat = (long) location.getLatitude();
-            long lng = (long) location.getLongitude();
-            latCurrent=lat;
-            lontCurrent=lng;
-
-            latLongString = "Lat:" + lat + "\nLong:" + lng;
-        } else {
-            latLongString = "No location found";
-        }
-
-    }
 
 
     @Override
@@ -202,21 +242,5 @@ public class FindStation extends FragmentActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-/*
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_find_station, container, false);
-            return rootView;
-        }
-    }
 */
 }

@@ -24,4 +24,7 @@
     <string name="title_activity_tesing">TesingActivity</string>
     <string name="title_activity_vehicle_status">VehicleStatus</string>
     <string name="title_activity_rewards">Rewards</string>
+    <string name="title_activity_preferences">Preferences</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

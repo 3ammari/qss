@@ -1,12 +1,16 @@
 package customer.quick.source.qss;
 
-import android.support.v7.app.ActionBarActivity;
+
+import android.content.Context;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,15 +24,93 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import customer.quick.source.qss.adapters.RewardObject;
+import customer.quick.source.qss.adapters.RewardsAdapter;
 
 
-public class Rewards extends ActionBarActivity {
+public class Rewards extends Fragment {
     String baseUrl;
     ListView listView;
     ArrayList<String> rewards;
     AsyncHttpClient client = new AsyncHttpClient();
+    List<RewardObject> objects;
+    TextView msgBox;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //return super.onCreateView(inflater, container, savedInstanceState);
+        objects = new ArrayList<RewardObject>();
+        final FragmentActivity fa = (FragmentActivity) super.getActivity();
+        final Context context = super.getActivity();
+        View view =inflater.inflate(R.layout.activity_rewards,container,false);
+        rewards= new ArrayList<>();
+        TextView pointsTextView = (TextView) view.findViewById(R.id.pointsTextView);
+        pointsTextView.setText(GeneralUtilities.getFromPrefs(super.getActivity(),"POINTS","0"));
+        Log.d("[rewards_text]", GeneralUtilities.getFromPrefs(super.getActivity(), "POINTS", "2"));
+        listView= (ListView) view.findViewById(R.id.rewardsListView);
+        msgBox = (TextView) view.findViewById(R.id.descriptionMsg);
+        baseUrl=GeneralUtilities.getFromPrefs(super.getActivity(),GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/api/v1/client/");
+        Button rewardsRefreshButton = (Button) view.findViewById(R.id.rewardsRefreshButton);
+        rewardsRefreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                client.get(context,baseUrl+"rewards",null,new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Log.d("[rewards]",Integer.toString(statusCode));
+
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        Log.d("[rewards]",responseString);
+                        if (!objects.isEmpty()){objects.clear();}
+                        try {
+                            JSONArray jsonArray = new JSONArray(responseString);
+                            for (int i = 0; i <jsonArray.length() ; i++) {
+                                JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
+                                String title=jsonObject.getString("title");
+                                String cost= jsonObject.getString("cost");
+                                String description = jsonObject.getString("description");
+                                objects.add(new RewardObject(title,description,Integer.parseInt(cost)));
+                            }
+/*
+                                rewards.add(title+" for "+cost+" points");
+*/
+
+                                //ArrayAdapter<String> adapter= new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,rewards);
+                                listView.setAdapter(new RewardsAdapter(context,objects));
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
+
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                msgBox.setText(objects.get(position).description);
+            }
+        });
+        return view;
+    }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rewards);
@@ -97,5 +179,5 @@ public class Rewards extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

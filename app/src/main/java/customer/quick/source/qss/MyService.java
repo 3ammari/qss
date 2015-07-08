@@ -1,14 +1,10 @@
 package customer.quick.source.qss;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
+
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,12 +28,8 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+
 
 
 public class MyService extends Service {
@@ -45,7 +37,6 @@ public class MyService extends Service {
     String email;
     String userID;
     String password;
-    int filterNotificationID;
     AsyncHttpClient client= new AsyncHttpClient();
     public MyService() {
     }
@@ -58,8 +49,7 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //filterNotificationID= Integer.parseInt(GeneralUtilities.getFromPrefs(this, GeneralUtilities.KEY, "54"));
-          filterNotificationID=12332;
+
         Toast.makeText(MyService.this,"Service started!",Toast.LENGTH_LONG).show();
         final boolean networkState= new GeneralUtilities(MyService.this).isNetworkConnected(MyService.this);
         baseUrl = GeneralUtilities.getFromPrefs(this,GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/api/v1/client/");
@@ -78,9 +68,11 @@ public class MyService extends Service {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
                     Log.d("-=-=-=", responseString);
-                    try{
+                    /*try{
                         Locations.deleteAll(Locations.class);
-                    }catch(Exception e){e.printStackTrace();}
+                    }catch(Exception e){e.printStackTrace();}*/
+                    int x=0;
+                    ArrayList<Locations> bufferList= new ArrayList<Locations>();
                     try {
                         JSONArray jsonArray= new JSONArray(responseString);
                         for (int i = 0; i <jsonArray.length() ; i++) {
@@ -90,10 +82,20 @@ public class MyService extends Service {
                             Locations location= new Locations();
                             location.setLocationId(Integer.parseInt(id));
                             location.setName(name);
-                            location.save();
+                            bufferList.add(location);
+                            //location.save();
                         }
                     } catch (JSONException e) {
+                        x++;
                         e.printStackTrace();
+                    }
+                    if (x==0){
+                        try {
+                            Locations.deleteAll(Locations.class);
+                            Locations.saveInTx(bufferList);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }
@@ -110,16 +112,19 @@ public class MyService extends Service {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
                     Log.d("********", responseString);
-                    try{
+                    /*try{
                         Vehicles.deleteAll(Vehicles.class);
                         RecentServices.deleteAll(RecentServices.class);
-                    }catch (Exception e){e.printStackTrace();}
+                    }catch (Exception e){e.printStackTrace();}*/
+                    ArrayList<Vehicles> bufferList= new ArrayList<Vehicles>();
+                    int x=0;
 
                     try {
                         JSONArray jsonArray = new JSONArray(responseString);
                         for (int i = 0; i <jsonArray.length() ; i++) {
                             Vehicles vehicle = new Vehicles();
                             JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
+
                             String vehicleID=jsonObject.getString("id");
                             String fuel= jsonObject.getString("fuel");
                             String year = jsonObject.getString("year");
@@ -128,15 +133,27 @@ public class MyService extends Service {
                             JSONObject makeObject= new JSONObject(modelObject.getString("make"));
                             String make= makeObject.getString("name");
                             Log.d("[4]",vehicleID+" "+fuel+" "+make+" "+make);
+
                             vehicle.setVehicleID(vehicleID);
                             vehicle.setFuel(fuel);
                             vehicle.setMake(make);
                             vehicle.setModel(model);
                             vehicle.setYear(year);
-                            vehicle.save();
+
+                            bufferList.add(vehicle);
+                            //vehicle.save();
                         }
                     } catch (JSONException e) {
+                        x++;
                         e.printStackTrace();
+                    }
+                    if (x==0){
+                        try {
+                            Vehicles.deleteAll(Vehicles.class);
+                            Vehicles.saveInTx(bufferList);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -153,9 +170,11 @@ public class MyService extends Service {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
                     Log.d("///////",responseString);
-                    try {
+                    /*try {
                         RecentServices.deleteAll(RecentServices.class);
-                    }catch (Exception e){e.printStackTrace();}
+                    }catch (Exception e){e.printStackTrace();}*/
+                    int x=0;
+                    ArrayList<RecentServices> bufferList= new ArrayList<RecentServices>();
                     try {
                         JSONArray jsonArray = new JSONArray(responseString);
                         for (int i = 0; i <jsonArray.length() ; i++) {
@@ -183,7 +202,8 @@ public class MyService extends Service {
                             recentServices.setFilterChange(filterChangeDate);
                             recentServices.setOilChange(oilChangeDate);
                             recentServices.setVehicleID(Integer.parseInt(vehicleID));
-                            recentServices.save();
+                            bufferList.add(recentServices);
+                            //recentServices.save();
 
 
 
@@ -192,7 +212,17 @@ public class MyService extends Service {
 
                         }
                     } catch (JSONException e) {
+                        x++;
                         e.printStackTrace();
+                    }
+                    if (x==0){
+                        try {
+                            RecentServices.deleteAll(RecentServices.class);
+                            RecentServices.saveInTx(bufferList);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
             });
@@ -207,32 +237,44 @@ public class MyService extends Service {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
                     Log.d("[stations]",responseString);
-                    try {
+                    /*try {
                         Stations.deleteAll(Stations.class);
-                    }catch (Exception e){e.printStackTrace();}
+                    }catch (Exception e){e.printStackTrace();}*/
+                    ArrayList<Stations> bufferList = new ArrayList<>();
+                    int x=0;
+
                     try {
                         JSONArray jsonArray = new JSONArray(responseString);
                         for (int i = 0; i <jsonArray.length() ; i++) {
                             JSONObject jsonObject= new JSONObject(jsonArray.getString(i));
-                            String lonString = jsonObject.getString("longitude");
-                            String latString = jsonObject.getString("latitude");
+                            double lon =jsonObject.getDouble("longitude");
+                            double lat = jsonObject.getDouble("latitude");
                             String idString = jsonObject.getString("station_id");
                             JSONObject stationObj=new JSONObject(jsonObject.getString("station"));
                             String stationName = stationObj.getString("name");
                             String stationLocation = stationObj.getString("address");
-                            long lat=Long.parseLong(latString);
-                            long lon=Long.parseLong(lonString);
+                            Log.d("mapsCoordinates", String.valueOf(lon));
+                            Log.d("mapsCoordinates", String.valueOf(lat));
                             Stations station = new Stations();
                             station.setStationID(Integer.parseInt(idString));
                             station.setStationLat(lat);
                             station.setStationLong(lon);
                             station.setStationName(stationName);
                             station.setStationLocation(stationLocation);
-                            station.save();
+                            bufferList.add(station);
 
                         }
                     } catch (JSONException e) {
+                        x++;
                         e.printStackTrace();
+                    }
+                    if (x==0){
+                        try {
+                            Stations.deleteAll(Stations.class);
+                            Stations.saveInTx(bufferList);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -246,9 +288,11 @@ public class MyService extends Service {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
                     Log.d("[99]",responseString);
-                   try {
+                   /*try {
                        ServicesTable.deleteAll(ServicesTable.class);
-                   }catch (Exception e){e.printStackTrace();}
+                   }catch (Exception e){e.printStackTrace();}*/
+                        int x=0;
+                    ArrayList<ServicesTable> bufferList = new ArrayList<ServicesTable>();
                     try {
                         JSONArray jsonArray = new JSONArray(responseString);
                         for (int i = 0; i <jsonArray.length() ; i++) {
@@ -259,15 +303,30 @@ public class MyService extends Service {
                             servicesTable.setServiceType(type);
                             servicesTable.setServiceTypeID(id);
                             servicesTable.setCycle("3");
-                            servicesTable.save();
+                            bufferList.add(servicesTable);
+
+
+//                            servicesTable.save();
 
                         }
                     } catch (JSONException e) {
+                        x++;
                         e.printStackTrace();
+                    }
+                    if (x==0){
+                        try {
+                            ServicesTable.deleteAll(ServicesTable.class);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        ServicesTable.saveInTx(bufferList);
+
                     }
                 }
             });
 
+
+            //fetching rewards
             client.get(MyService.this,baseUrl+userID+"/points",null,new TextHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {

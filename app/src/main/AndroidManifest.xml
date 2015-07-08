@@ -7,7 +7,7 @@
     -->
     <uses-sdk
         android:maxSdkVersion="21"
-        android:minSdkVersion="11"
+        android:minSdkVersion="10"
         android:targetSdkVersion="14" />
 
     <uses-feature
@@ -68,11 +68,12 @@
             android:name=".StatusActivity"
             android:label="@string/title_activity_status" >
         </activity>
+        <!--
         <activity
             android:name=".FindStation"
             android:label="@string/title_activity_find_station" >
-
         </activity>
+        -->
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -82,21 +83,21 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".FindStation1"
-            android:label="@string/title_activity_find_station1" >
-        </activity>
-        <activity
             android:name=".Registration"
             android:label="@string/title_activity_registration" >
         </activity>
+        <!--
         <activity
             android:name=".UserIDShowQR"
             android:label="@string/title_activity_user_idshow_qr" >
         </activity>
+        -->
+        <!--
         <activity
             android:name=".Garage"
             android:label="@string/title_activity_garage" >
         </activity>
+        -->
 
         <service
             android:name=".MyService"
@@ -130,13 +131,6 @@
         </service>
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
-            <meta-data
-                android:name="android.support.UI_OPTIONS"
-                android:value="splitActionBarWhenNarrow" />
-        </activity>
-        <activity
             android:name=".TestingActivity"
             android:label="@string/title_activity_tesing" >
         </activity>
@@ -153,15 +147,31 @@
         </activity>
 
         <!-- suppress AndroidDomInspection -->
+        <!-- suppress AndroidDomInspection -->
         <service
             android:name=".GPSTracker"
             android:enabled="true"
             android:exported="true" >
         </service>
 
+        <!--
         <activity
             android:name=".Rewards"
             android:label="@string/title_activity_rewards" >
+        </activity>
+        -->
+        <!--<activity
+            android:name=".PreferencesActivity"
+            android:label="@string/title_activity_preferences" >
+        </activity>-->
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home" >
+
+        </activity>
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 

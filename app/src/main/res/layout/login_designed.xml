@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffe9e0d6"
+    android:layout_margin="4dp">
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/relativ_1"
+    android:layout_below="@+id/logo">
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Username"
+       android:textSize="22sp"
+       android:id="@+id/usernameTV"
+
+
+
+       />
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/usernameTV"
+        android:inputType="textEmailAddress"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:id="@+id/usernameField"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordTV"
+        android:layout_below="@+id/usernameTV"
+        android:text="Password"
+        android:textSize="22sp"
+        android:layout_marginTop="8dp"
+
+        />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordField"
+        android:layout_toEndOf="@id/passwordTV"
+        android:layout_toRightOf="@+id/passwordTV"
+        android:layout_below="@id/usernameField"
+        android:inputType="textPassword"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+
+        />
+</RelativeLayout>
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/app_logo"
+        android:layout_alignParentTop="true"
+        android:id="@+id/logo"
+        android:layout_marginBottom="20dp"
+        />
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/loginButton"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="Login"
+        android:layout_centerHorizontal="true"
+        />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:id="@+id/registrationButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="12sp" />
+
+
+</RelativeLayout>
