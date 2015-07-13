@@ -96,7 +96,7 @@ public class Login extends ActionBarActivity {
                                             finish();
                                         } //End of AccountManager Integration
 */
-
+                                        GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.SEASSION_KEY,true);
                                         GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.USERNAME_KEY,username);
                                         GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.PASSWORD_KEY,password);
                                         GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.USERID_KEY,id);

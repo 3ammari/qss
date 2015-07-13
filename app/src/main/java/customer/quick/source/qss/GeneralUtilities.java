@@ -18,6 +18,7 @@ public class GeneralUtilities {
     public static final String USERID_KEY="USERID";
     public static final String PIN_KEY="PIN";
     public static final String KEY="KEY";
+    public static final String SEASSION_KEY="SEASSION";
     Context context;
 
     public static void saveToPrefs(Context context, String key, String value) {
@@ -27,6 +28,20 @@ public class GeneralUtilities {
         editor.commit();
     }
 
+
+    public static void saveToPrefs(Context context, String key, boolean value) {
+        SharedPreferences prefs = new SecurePreferences(context);
+        final SecurePreferences.Editor editor= (SecurePreferences.Editor) prefs.edit();
+        editor.putBoolean(key, value);
+        editor.commit();
+    }
+
+    public static void saveToPrefs(Context context, String key, int value) {
+        SharedPreferences prefs = new SecurePreferences(context);
+        final SecurePreferences.Editor editor= (SecurePreferences.Editor) prefs.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
     public GeneralUtilities(Context context) {
         this.context=context;
     }
@@ -35,6 +50,30 @@ public class GeneralUtilities {
         SharedPreferences prefs = new SecurePreferences(context);
         try {
             return prefs.getString(key, defaultValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return defaultValue;
+        }
+
+
+    }
+
+    public static boolean getFromPrefs(Context context, String key, boolean defaultValue) {
+        SharedPreferences prefs = new SecurePreferences(context);
+        try {
+            return prefs.getBoolean(key, defaultValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return defaultValue;
+        }
+
+
+    }
+
+    public static int getFromPrefs(Context context, String key, int defaultValue) {
+        SharedPreferences prefs = new SecurePreferences(context);
+        try {
+            return prefs.getInt(key, defaultValue);
         } catch (Exception e) {
             e.printStackTrace();
             return defaultValue;

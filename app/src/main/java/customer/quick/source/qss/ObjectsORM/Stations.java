@@ -1,4 +1,4 @@
-package customer.quick.source.qss;
+package customer.quick.source.qss.ObjectsORM;
 
 import com.orm.SugarRecord;
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
@@ -24,14 +25,16 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import customer.quick.source.qss.ObjectsORM.RemindersPreferencesORM;
+import customer.quick.source.qss.adapters.PreferencesAdapter;
+
 
 public class PreferencesActivity extends Fragment {
-    String oil;
-    String filter;
-    String checkup;
+
     String baseUrl;
     String userID;
     Context context;
+    ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,16 +42,19 @@ public class PreferencesActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_preferences, container, false);
         baseUrl = GeneralUtilities.getFromPrefs(context, GeneralUtilities.BASE_URL_KEY, "http://192.168.1.131/api/v1/client/");
         userID = GeneralUtilities.getFromPrefs(context, GeneralUtilities.USERID_KEY, "");
-        final EditText oilCycle = (EditText) view.findViewById(R.id.oilCycleTextField);
-        final EditText filterCycle = (EditText) view.findViewById(R.id.filterCycleTextField);
-        final EditText checkupCycle = (EditText) view.findViewById(R.id.checkupCycleTextField);
+        listView = (ListView) view.findViewById(R.id.prefsListView);
+        List<RemindersPreferencesORM> remindersPreferencesORMs= RemindersPreferencesORM.listAll(RemindersPreferencesORM.class);
+        listView.setAdapter(new PreferencesAdapter(context,remindersPreferencesORMs));
 
-        Button saveButton = (Button) view.findViewById(R.id.savePreferences);
 
+
+
+
+/*
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
+                *//*try {
                     oil = oilCycle.getText().toString();
                     filter = filterCycle.getText().toString();
                     checkup = checkupCycle.getText().toString();
@@ -100,9 +106,11 @@ public class PreferencesActivity extends Fragment {
 
             }
         });
-
+*/
         return view;
     }
+
+
 
   /*  @Override
     protected void onCreate(Bundle savedInstanceState) {

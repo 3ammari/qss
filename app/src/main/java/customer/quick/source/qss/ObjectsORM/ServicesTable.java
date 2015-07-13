@@ -1,4 +1,4 @@
-package customer.quick.source.qss;
+package customer.quick.source.qss.ObjectsORM;
 
 import com.orm.SugarRecord;
 
@@ -7,16 +7,9 @@ import com.orm.SugarRecord;
  */
 public class ServicesTable extends SugarRecord<ServicesTable> {
     String serviceType;
-    String serviceTypeID;
-    String cycle;
+    int serviceTypeID;
 
-    public String getCycle() {
-        return cycle;
-    }
 
-    public void setCycle(String cycle) {
-        this.cycle = cycle;
-    }
 
     public ServicesTable() {
     }
@@ -29,11 +22,11 @@ public class ServicesTable extends SugarRecord<ServicesTable> {
         this.serviceType = serviceType;
     }
 
-    public String getServiceTypeID() {
+    public int getServiceTypeID() {
         return serviceTypeID;
     }
 
-    public void setServiceTypeID(String serviceTypeID) {
+    public void setServiceTypeID(int serviceTypeID) {
         this.serviceTypeID = serviceTypeID;
     }
 }

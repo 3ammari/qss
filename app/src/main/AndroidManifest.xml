@@ -55,6 +55,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".Login"
@@ -148,11 +149,12 @@
 
         <!-- suppress AndroidDomInspection -->
         <!-- suppress AndroidDomInspection -->
-        <service
+        <!--suppress AndroidDomInspection -->
+        <!--<service
             android:name=".GPSTracker"
             android:enabled="true"
             android:exported="true" >
-        </service>
+        </service>-->
 
         <!--
         <activity
@@ -160,18 +162,26 @@
             android:label="@string/title_activity_rewards" >
         </activity>
         -->
-        <!--<activity
+        <!--
+        <activity
             android:name=".PreferencesActivity"
             android:label="@string/title_activity_preferences" >
-        </activity>-->
+        </activity>
+        -->
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home" >
+
 
         </activity>
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings" >
+
+        </activity>
+        <activity
+            android:name=".SingleVehicleStatus"
+            android:label="@string/title_activity_single_vehicle_status" >
         </activity>
     </application>
 

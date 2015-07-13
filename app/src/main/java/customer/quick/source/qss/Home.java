@@ -9,9 +9,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import android.os.Bundle;
+import android.text.method.CharacterPickerDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import net.glxn.qrgen.android.QRCode;
@@ -31,6 +34,7 @@ public class Home extends FragmentActivity{
         setContentView(R.layout.activity_home);
         startService(new Intent(Home.this,AlarmsService.class));
 
+
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setHorizontalScrollBarEnabled(true);
 
@@ -38,8 +42,8 @@ public class Home extends FragmentActivity{
         viewPager.setAdapter(mAdapter);
 
 
-    }
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,23 +63,19 @@ public class Home extends FragmentActivity{
         if (id == R.id.action_settings) {
             Log.d("settingsAction", "was pressed");
 
-            String userID=GeneralUtilities.getFromPrefs(Home.this, GeneralUtilities.USERID_KEY, "");
-            Dialog dialog = new Dialog(Home.this);
-            dialog.setContentView(R.layout.dialog_qr);
-            Bitmap myBitmap = QRCode.from(userID).bitmap();
-            ImageView imageView = (ImageView) dialog.findViewById(R.id.qrDialog);
 
-            imageView.setImageBitmap(myBitmap);
-            dialog.setCancelable(true);
-            dialog.show();
-/*
             startActivity(new Intent(Home.this,Settings.class));
-*/
+
+            return false;
+           // finish();
+
 
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
 

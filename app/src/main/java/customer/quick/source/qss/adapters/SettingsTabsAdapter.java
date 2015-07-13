@@ -34,7 +34,7 @@ public class SettingsTabsAdapter extends FragmentPagerAdapter {
 
        }
 
-        return null;
+        return new UserIDShowQR();
     }
 
     @Override

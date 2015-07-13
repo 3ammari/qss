@@ -1,4 +1,4 @@
-package customer.quick.source.qss;
+package customer.quick.source.qss.ObjectsORM;
 
 import com.orm.SugarRecord;
 
@@ -6,7 +6,7 @@ import com.orm.SugarRecord;
  * Created by abdul-rahman on 23/06/15.
  */
 public class Vehicles extends SugarRecord<Vehicles> {
-    String vehicleID;
+    int vehicleID;
     String make;
     String model;
     String fuel;
@@ -36,11 +36,11 @@ public class Vehicles extends SugarRecord<Vehicles> {
     }
 
 
-    public String getVehicleID() {
+    public int getVehicleID() {
         return vehicleID;
     }
 
-    public void setVehicleID(String vehicleID) {
+    public void setVehicleID(int vehicleID) {
         this.vehicleID = vehicleID;
     }
 

@@ -4,20 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import customer.quick.source.qss.ObjectsORM.Vehicles;
 import customer.quick.source.qss.adapters.GarageAdapter;
 
 
@@ -39,15 +36,15 @@ public class Garage extends Fragment {
         }*/
        // ArrayAdapter arrayAdapter = new ArrayAdapter(Garage.this,android.R.layout.simple_list_item_1,android.R.id.text1,vehiclesNames);
         listView.setAdapter(new GarageAdapter(context,vehiclesList));
-/*        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String vehicleID= vehiclesList.get(position).getVehicleID();
-                Intent intent = new Intent(context,VehicleStatus.class);
-                intent.putExtra("vehicleID",vehicleID);
+                int vehicleID = vehiclesList.get(position).getVehicleID();
+                Intent intent = new Intent(context, VehicleStatus.class);
+                intent.putExtra("vehicleID", vehicleID);
                 startActivity(intent);
             }
-        });*/
+        });
 
         return view;
     }

@@ -30,6 +30,11 @@ public class Splash extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(GeneralUtilities.getFromPrefs(Splash.this,GeneralUtilities.SEASSION_KEY,false)){
+            startService(new Intent(Splash.this,MyService.class));
+            startActivity(new Intent(Splash.this,Home.class));
+            finish();
+        }
         setContentView(R.layout.activity_splash);
 
 /*        accountManager= AccountManager.get(Splash.this);
@@ -112,7 +117,7 @@ public class Splash extends ActionBarActivity {
 
     }
 
-
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -133,5 +138,5 @@ public class Splash extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

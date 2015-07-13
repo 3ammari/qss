@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import customer.quick.source.qss.R;
-import customer.quick.source.qss.Vehicles;
+import customer.quick.source.qss.ObjectsORM.Vehicles;
 
 /**
  * Created by abdul-rahman on 04/07/15.

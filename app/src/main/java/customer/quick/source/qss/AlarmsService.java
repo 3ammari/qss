@@ -116,6 +116,9 @@ public class AlarmsService extends Service {
         timer.schedule(task, 0, 30000);
 
 
+        //add all the updating requests
+
+
 
 
         return START_STICKY;

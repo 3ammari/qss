@@ -2,12 +2,16 @@ package customer.quick.source.qss;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -99,8 +103,10 @@ public class Rewards extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 msgBox.setText(objects.get(position).description);
+
             }
         });
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -110,6 +116,47 @@ public class Rewards extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_home,menu);
+    }
+
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Log.d("settingsAction", "was pressed");
+
+            /*String userID=GeneralUtilities.getFromPrefs(Home.this, GeneralUtilities.USERID_KEY, "");
+            Dialog dialog = new Dialog(Home.this);
+            dialog.setContentView(R.layout.dialog_qr);
+            Bitmap myBitmap = QRCode.from(userID).bitmap();
+            ImageView imageView = (ImageView) dialog.findViewById(R.id.qrDialog);
+
+            imageView.setImageBitmap(myBitmap);
+            dialog.setCancelable(true);
+            dialog.show();*/
+            startActivity(new Intent(this.getActivity(),Settings.class));
+
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

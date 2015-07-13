@@ -1,38 +1,23 @@
 package customer.quick.source.qss;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import customer.quick.source.qss.adapters.SettingsTabsAdapter;
 
+public class SingleVehicleStatus extends ActionBarActivity {
 
-public class Settings extends FragmentActivity {
-
-    private SettingsTabsAdapter tabsPagerAdapter;
-    private ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("[settings activity]", "created");
-        setContentView(R.layout.activity_settings);
-        Log.d("[settings activity]", "layout sat");
-        viewPager= (ViewPager) findViewById(R.id.pagerSetting);
-        viewPager.setHorizontalScrollBarEnabled(true);
-        tabsPagerAdapter = new SettingsTabsAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(tabsPagerAdapter);
-
-        Log.d("[settings activity]","end of oncreate");
+        setContentView(R.layout.activity_single_vehicle_status);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        getMenuInflater().inflate(R.menu.menu_single_vehicle_status, menu);
         return true;
     }
 
@@ -45,7 +30,6 @@ public class Settings extends FragmentActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
             return true;
         }
 

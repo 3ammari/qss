@@ -11,25 +11,19 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import org.apache.http.Header;
-import org.joda.time.DateTime;
-import org.joda.time.Instant;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.Period;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import customer.quick.source.qss.ObjectsORM.Locations;
+import customer.quick.source.qss.ObjectsORM.RecentServices;
+import customer.quick.source.qss.ObjectsORM.ServicesTable;
+import customer.quick.source.qss.ObjectsORM.Stations;
+import customer.quick.source.qss.ObjectsORM.Vehicles;
+import customer.quick.source.qss.ObjectsORM.RemindersPreferencesORM;
 
 
 public class MyService extends Service {
@@ -125,7 +119,7 @@ public class MyService extends Service {
                             Vehicles vehicle = new Vehicles();
                             JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
 
-                            String vehicleID=jsonObject.getString("id");
+                            int vehicleID=jsonObject.getInt("id");
                             String fuel= jsonObject.getString("fuel");
                             String year = jsonObject.getString("year");
                             JSONObject modelObject=new JSONObject(jsonObject.getString("model"));
@@ -181,34 +175,29 @@ public class MyService extends Service {
 
                             JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
                             String vehicleID=jsonObject.getString("id");
-                            JSONObject servicesObject= new JSONObject(jsonObject.getString("services"));
-                                String oilChangeDate="never";
-                                String filterChangeDate="never";
-                                String checkupDate="never";
-                            if (servicesObject.has("1")){
-
-                                oilChangeDate=((new JSONObject(servicesObject.getString("1"))).getString("created_at").split(" "))[0];
+                            JSONArray servicesObject= new JSONArray(jsonObject.getString("services"));
+                            JSONArray jsonArray1 = new JSONArray(servicesObject.toString());
+                            for (int j = 0; j <servicesObject.length() ; j++) {
+                                JSONObject jsonObject1 = new JSONObject(servicesObject.getString(j));
+                                int serviceTypeID = jsonObject1.getInt("service_type_id");
+                                String date = jsonObject1.getString("created_at");
+                               // date = date.split(" ")[0];
+                                RecentServices recentServices = new RecentServices();
+                                recentServices.setServiceTypeID(serviceTypeID);
+                                recentServices.setVehicleID(Integer.parseInt(vehicleID));
+                                recentServices.setDate(date);
+                                bufferList.add(recentServices);
                             }
-                            if(servicesObject.has("2")){
-                                filterChangeDate=((new JSONObject(servicesObject.getString("2"))).getString("created_at").split(" "))[0];
-                            }
-                            if (servicesObject.has("3")){
-                                checkupDate=((new JSONObject(servicesObject.getString("3"))).getString("created_at").split(" "))[0];
-                            }
 
 
-                            RecentServices recentServices = new RecentServices();
-                            recentServices.setCheckUp(checkupDate);
-                            recentServices.setFilterChange(filterChangeDate);
-                            recentServices.setOilChange(oilChangeDate);
-                            recentServices.setVehicleID(Integer.parseInt(vehicleID));
-                            bufferList.add(recentServices);
+
+
                             //recentServices.save();
 
 
 
 
-                            Log.d("[][][]", recentServices.toString());
+
 
                         }
                     } catch (JSONException e) {
@@ -298,11 +287,10 @@ public class MyService extends Service {
                         for (int i = 0; i <jsonArray.length() ; i++) {
                             JSONObject jsonObject= new JSONObject(jsonArray.getString(i));
                             String type = jsonObject.getString("name");
-                            String id = jsonObject.getString("id");
+                            int id = jsonObject.getInt("id");
                             ServicesTable servicesTable = new ServicesTable();
                             servicesTable.setServiceType(type);
                             servicesTable.setServiceTypeID(id);
-                            servicesTable.setCycle("3");
                             bufferList.add(servicesTable);
 
 
@@ -324,6 +312,46 @@ public class MyService extends Service {
                     }
                 }
             });
+
+            //preferences for reminders
+            client.get(MyService.this, baseUrl + userID + "/preferences/reminders", null, new TextHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                    Log.d("[preferences]", responseString);
+                    int x=0;
+                    ArrayList <RemindersPreferencesORM> bufferList= new ArrayList<>();
+                    try {
+                        JSONArray jsonArray = new JSONArray(responseString);
+                        for (int i = 0; i <jsonArray.length() ; i++) {
+                            JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
+                            int serviceTypeID = jsonObject.getInt("service_type_id");
+                            int period = jsonObject.getInt("period");
+                            RemindersPreferencesORM remindersPreferencesORM = new RemindersPreferencesORM();
+                            remindersPreferencesORM.setServiceTypeID(serviceTypeID);
+                            remindersPreferencesORM.setPeriod(period);
+                            bufferList.add(remindersPreferencesORM);
+
+                        }
+                    } catch (JSONException e) {
+                        x++;
+                        e.printStackTrace();
+                    }
+
+                    if (x==0){
+                        RemindersPreferencesORM.deleteAll(RemindersPreferencesORM.class);
+                        RemindersPreferencesORM.saveInTx(bufferList);
+                    }
+
+
+
+                }
+            });
+
 
 
             //fetching rewards

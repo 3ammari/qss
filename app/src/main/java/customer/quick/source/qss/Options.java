@@ -38,6 +38,7 @@ public class Options extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.options,container,false);
+        context=this.getActivity();
 
         final boolean networkStatus=new GeneralUtilities(context).isNetworkConnected(context);
         oldPasswordField= (EditText) view.findViewById(R.id.oldPasswordField);
