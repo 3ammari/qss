@@ -27,7 +27,10 @@ Context context;
                 GeneralUtilities.clearPrefsUrl(context,GeneralUtilities.USERID_KEY);
                 GeneralUtilities.clearPrefsUrl(context,GeneralUtilities.PASSWORD_KEY);
                 GeneralUtilities.clearPrefsUrl(context,GeneralUtilities.USERNAME_KEY);
-                startActivity(new Intent(context,Login.class));
+                GeneralUtilities.clearPrefsUrl(context,GeneralUtilities.SEASSION_KEY);
+                startActivity(new Intent(context, Login.class));
+                getActivity().finish();
+                Home.fa.finish();
             }
         });
         return view;

@@ -1,5 +1,6 @@
 package customer.quick.source.qss;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -35,6 +37,8 @@ public class PreferencesActivity extends Fragment {
     String userID;
     Context context;
     ListView listView;
+    Button okButton;
+    AsyncHttpClient client= new AsyncHttpClient();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,9 +47,71 @@ public class PreferencesActivity extends Fragment {
         baseUrl = GeneralUtilities.getFromPrefs(context, GeneralUtilities.BASE_URL_KEY, "http://192.168.1.131/api/v1/client/");
         userID = GeneralUtilities.getFromPrefs(context, GeneralUtilities.USERID_KEY, "");
         listView = (ListView) view.findViewById(R.id.prefsListView);
-        List<RemindersPreferencesORM> remindersPreferencesORMs= RemindersPreferencesORM.listAll(RemindersPreferencesORM.class);
-        listView.setAdapter(new PreferencesAdapter(context,remindersPreferencesORMs));
+        okButton= (Button) view.findViewById(R.id.notifyServerButton);
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestParams requestParams = new RequestParams();
+                List<RemindersPreferencesORM> newPrefs = RemindersPreferencesORM.listAll(RemindersPreferencesORM.class);
+                JSONArray jsonArray = new JSONArray();
+                for (int i = 0; i < newPrefs.size(); i++) {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("service_type_id", newPrefs.get(i).getServiceTypeID());
+                        jsonObject.put("period", newPrefs.get(i).getPeriod());
+                        jsonArray.put(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+                requestParams.put("preferences", jsonArray);
+                client.post(context, baseUrl + userID + "/preferences/reminders", requestParams, new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Log.d("[preferences]", String.valueOf(statusCode));
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                        Log.d("[preferences]", responseString);
+                    }
+                });
+            }
+        });
+        List<RemindersPreferencesORM> remindersPreferencesORMs= RemindersPreferencesORM.listAll(RemindersPreferencesORM.class);
+        listView.setAdapter(new PreferencesAdapter(context, remindersPreferencesORMs));
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
+                final Dialog dialog = new Dialog(context);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.preferences_dialog);
+                final EditText frequencyField = (EditText) dialog.findViewById(R.id.frequencyField);
+                Button okButton = (Button) dialog.findViewById(R.id.prefsDialogButton);
+                dialog.show();
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        RemindersPreferencesORM preferencesORM = (RemindersPreferencesORM) parent.getItemAtPosition(position);
+                        Log.d("[zxcv]", String.valueOf(preferencesORM.getServiceTypeID()));
+                        try {
+                            int days = Integer.parseInt(frequencyField.getText().toString());
+                            preferencesORM.setPeriod(days);
+                            preferencesORM.save();
+                        } catch (NullPointerException | NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+
+
+            }
+
+        });
 
 
 

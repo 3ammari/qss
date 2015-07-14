@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#0393A6"
+    android:gravity="top"
+
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="you&apos;d like to be notified every?"
+        android:id="@+id/textView9"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/frequencyField"
+        android:layout_below="@+id/textView9"
+        android:layout_centerHorizontal="true"
+        android:background="#ffe9e0d6"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:background="#ffe9e0d6"
+        android:textSize="12sp"
+        android:id="@+id/prefsDialogButton"
+        android:layout_below="@id/frequencyField"
+        android:layout_centerHorizontal="true"
+        />
+</RelativeLayout>

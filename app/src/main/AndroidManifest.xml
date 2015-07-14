@@ -170,13 +170,17 @@
         -->
         <activity
             android:name=".Home"
-            android:label="@string/title_activity_home" >
+            android:label="@string/title_activity_home"
+            android:launchMode="singleInstance"
+            >
 
 
         </activity>
         <activity
             android:name=".Settings"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings"
+            android:launchMode="singleInstance"
+            >
 
         </activity>
         <activity

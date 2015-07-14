@@ -14,7 +14,7 @@ import customer.quick.source.qss.UserIDShowQR;
  * Created by abdul-rahman on 05/07/15.
  */
 public class SettingsTabsAdapter extends FragmentPagerAdapter {
-
+    String[] titles={"Notifications Frequencies","Changing Password","USER ID QR Code","Log Out"};
     public SettingsTabsAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -32,6 +32,7 @@ public class SettingsTabsAdapter extends FragmentPagerAdapter {
                return new LogoutFragment();
 
 
+
        }
 
         return new UserIDShowQR();
@@ -40,5 +41,10 @@ public class SettingsTabsAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 4;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
     }
 }

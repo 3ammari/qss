@@ -1,5 +1,6 @@
 package customer.quick.source.qss;
 
+import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -15,9 +16,12 @@ public class Settings extends FragmentActivity {
 
     private SettingsTabsAdapter tabsPagerAdapter;
     private ViewPager viewPager;
+    public static FragmentActivity fb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fb=this;
         Log.d("[settings activity]", "created");
         setContentView(R.layout.activity_settings);
         Log.d("[settings activity]", "layout sat");
