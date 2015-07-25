@@ -20,7 +20,6 @@ Context context;
         context = this.getActivity();
         View view = inflater.inflate(R.layout.fragment_logout,container,false);
         Button yesButton = (Button) view.findViewById(R.id.yesButton);
-        Button noButton = (Button) view.findViewById(R.id.noButton);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
