@@ -58,7 +58,7 @@ public class SingleVehilcleAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+       // if (convertView == null){}else{}
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View singleVehicle= inflater.inflate(R.layout.single_vehicle_status_item, parent, false);
         TextView serviceTypeTV = (TextView) singleVehicle.findViewById(R.id.serviceTypeTV);

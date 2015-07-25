@@ -13,7 +13,7 @@
    <TextView
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="Username"
+       android:text="@string/usernameLogin"
        android:textSize="22sp"
        android:id="@+id/usernameTV"
 
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/passwordTV"
         android:layout_below="@+id/usernameTV"
-        android:text="Password"
+        android:text="@string/passwordLogin"
         android:textSize="22sp"
         android:layout_marginTop="8dp"
 
@@ -68,7 +68,7 @@
         android:id="@+id/loginButton"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:text="Login"
+        android:text="@string/loginButton"
         android:layout_centerHorizontal="true"
         />
 
@@ -76,7 +76,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/registerButton"
         android:id="@+id/registrationButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

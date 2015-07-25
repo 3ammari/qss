@@ -20,11 +20,15 @@ public class UserIDShowQR extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.activity_user_idshow_qr,container,false);
-        String userID=GeneralUtilities.getFromPrefs(super.getActivity(),GeneralUtilities.USERID_KEY,"");
+        try {
+            String userID=GeneralUtilities.getFromPrefs(super.getActivity(),GeneralUtilities.USERID_KEY,"");
 
-        Bitmap myBitmap = QRCode.from(userID).bitmap();
-        ImageView myImage = (ImageView) view.findViewById(R.id.qrBitmap);
-        myImage.setImageBitmap(myBitmap);
+            Bitmap myBitmap = QRCode.from(userID).bitmap();
+            ImageView myImage = (ImageView) view.findViewById(R.id.qrBitmap);
+            myImage.setImageBitmap(myBitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return view;
     }
 

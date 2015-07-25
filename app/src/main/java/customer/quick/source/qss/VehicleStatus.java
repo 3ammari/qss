@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public class VehicleStatus extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_vehicle_status);
         servicesListView = (ListView) findViewById(R.id.servicesListView);
+        ImageView imageView = (ImageView) findViewById(R.id.vehicleImage);
+        
         int vehicleID = getIntent().getExtras().getInt("vehicleID");
         Log.d(TAG, String.valueOf(vehicleID));
         List<RecentServices> recentServicesList= RecentServices.find(RecentServices.class, "vehicle_id = ?", String.valueOf(vehicleID));

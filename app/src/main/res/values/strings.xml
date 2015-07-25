@@ -30,4 +30,26 @@
     <string name="title_activity_single_vehicle_status">Vehicle Status</string>
     <string name="x">List of Recent Services</string>
     <string name="title_activity_reminders_preferences">Reminders Preferences</string>
+    <string name="goToStation">Go!</string>
+    <string name="vehiclesTextView">New Text</string>
+    <string name="notifyServer">Notify Server</string>
+    <string name="emailRegistration">Email</string>
+    <string name="nameRegistration">Name</string>
+    <string name="submitRegistrationButton">Submit</string>
+    <string name="locationRegistration">Location</string>
+    <string name="refreshRewardsButton">Refresh</string>
+    <string name="pointsTextView">Points</string>
+    <string name="descriptionRewardsTV">this is the description of the selected reward from list below</string>
+    <string name="logOutConfirm">Yes</string>
+    <string name="logOutConfirmMsg">Are you sure you want to logout?</string>
+    <string name="usernameLogin">Username</string>
+    <string name="passwordLogin">Password</string>
+    <string name="loginButton">Login</string>
+    <string name="registerButton">Register</string>
+    <string name="oldPassword">Old Password</string>
+    <string name="newPassword">New Password</string>
+    <string name="reNewPassword">Re-enter new Password</string>
+    <string name="changePasswordSubmit">Submit</string>
+    <string name="preferenceDialogMsg">you\'d like to be notified every?</string>
+    <string name="preferencesDialogButton">OK</string>
 </resources>

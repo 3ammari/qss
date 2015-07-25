@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.orm.SugarRecord;
+
+import java.util.ArrayList;
 
 
 /**
@@ -17,7 +20,8 @@ import com.orm.SugarRecord;
  */
 public class NotificationsQSS  {
     Context context;
-
+    private static final String NOTIFICATION_GROUP="NOTIFICATION_GROUP";
+    private int UNIQUE_NOTIFICATION_ID=41232;
 
     public NotificationsQSS(Context context) {
         this.context = context;
@@ -31,10 +35,10 @@ public class NotificationsQSS  {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).build();
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).setGroup(NOTIFICATION_GROUP).build();
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(id,notification);
+        notificationManagerCompat.notify(UNIQUE_NOTIFICATION_ID,notification);
 
 
     }
@@ -46,10 +50,11 @@ public class NotificationsQSS  {
       Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
       NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-      Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).build();
-      NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+      Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).setGroup(NOTIFICATION_GROUP).build();
+      //NotificationManagerCompat notificationManager = (NotificationManagerCompat) context.getSystemService(Context.NOTIFICATION_SERVICE);
+      NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
       notification.flags |= Notification.FLAG_AUTO_CANCEL;
-      notificationManager.notify(id,notification);
+      notificationManagerCompat.notify(UNIQUE_NOTIFICATION_ID,notification);
 
   }
 
@@ -59,11 +64,13 @@ public class NotificationsQSS  {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).build();
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).setGroup(NOTIFICATION_GROUP).build();
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(id,notification);
+        notificationManagerCompat.notify(UNIQUE_NOTIFICATION_ID,notification);
 
     }
+
+
 
 }

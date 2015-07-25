@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="you&apos;d like to be notified every?"
+        android:text="@string/preferenceDialogMsg"
         android:id="@+id/textView9"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -33,7 +33,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK"
+        android:text="@string/preferencesDialogButton"
         android:background="#ffe9e0d6"
         android:textSize="12sp"
         android:id="@+id/prefsDialogButton"

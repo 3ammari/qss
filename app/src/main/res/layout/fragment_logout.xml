@@ -12,7 +12,7 @@
         <TextView
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="Are you sure you want to logout?"
+       android:text="@string/logOutConfirmMsg"
        android:layout_centerHorizontal="true"
        android:textSize="18sp"
        android:textColor="#0393A6"
@@ -23,7 +23,7 @@
         <Button
        android:layout_width="100dp"
        android:layout_height="wrap_content"
-       android:text="Yes"
+       android:text="@string/logOutConfirm"
        android:textSize="14sp"
        android:background="#0393A6"
        android:id="@+id/yesButton"
@@ -31,16 +31,6 @@
             android:layout_margin="5dp"
             android:layout_centerHorizontal="true"
        />
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="No"
-            android:textSize="14sp"
-            android:background="#0393A6"
-            android:layout_below="@id/yesButton"
-            android:layout_margin="5dp"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/noButton"
-            />
+
 </RelativeLayout>
 </FrameLayout>

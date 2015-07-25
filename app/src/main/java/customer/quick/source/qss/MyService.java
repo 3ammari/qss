@@ -373,6 +373,8 @@ public class MyService extends Service {
                     }
                 }
             });
+
+
         }
         // check oil change
         /*ScheduledExecutorService scheduler =
@@ -418,6 +420,6 @@ public class MyService extends Service {
 
 
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 }

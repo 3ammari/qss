@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QSS</string>
+    <string name="action_settings">الضبط</string>
+    <string name="title_activity_find_station">اظهار المراكز</string>
+    <string name="title_activity_garage">المراّب</string>
+    <string name="title_activity_home">الرئيسية</string>
+    <string name="title_activity_login">تسجيل دخول</string>
+    <string name="title_activity_map">الخارطة</string>
+    <string name="title_activity_preferences">الخصائص</string>
+    <string name="title_activity_registration">التسجيل</string>
+    <string name="title_activity_reminders_preferences">ضبط المذكرات</string>
+    <string name="title_activity_rewards">المكافئات</string>
+    <string name="title_activity_settings">الضبط</string>
+    <string name="title_activity_single_vehicle_status">حالة العربة</string>
+    <string name="title_activity_status">الحالة</string>
+    <string name="title_activity_user_idshow_qr">الباركود</string>
+    <string name="title_activity_vehicle_status">حالة العربة</string>
+    <string name="x">قائمة الخدمات الماضية</string>
+    <string name="goToStation">ذهاب!</string>
+    <string name="vehiclesTextView">العربات</string>
+    <string name="logOutConfirm">نعم</string>
+    <string name="logOutConfirmMsg">هل متأكد من رغبتك من تسجيل الخروج</string>
+    <string name="usernameLogin">اسم المستخدم</string>
+    <string name="passwordLogin">كلمة السر</string>
+    <string name="loginButton">تسجيل دخول</string>
+    <string name="registerButton">تسجيل</string>
+    <string name="oldPassword">كلمة السر القديمة</string>
+    <string name="newPassword">كلمة السر الجديدة</string>
+    <string name="reNewPassword">اعد ادخال كلمة السر الجديدة</string>
+    <string name="changePasswordSubmit">تم</string>
+    <string name="preferenceDialogMsg">متى تود البرنامج تذكيرك</string>
+    <string name="preferencesDialogButton">تم</string>
+    <string name="descriptionRewardsTV">اختر هدية من القائمة لمعرفة المزيد</string>
+    <string name="emailRegistration">البريد الالكتروني</string>
+    <string name="locationRegistration">الموقع</string>
+    <string name="nameRegistration">الاسم</string>
+    <string name="notifyServer">اخبر المركز</string>
+    <string name="pointsTextView">النقاط</string>
+    <string name="refreshRewardsButton">اعادة تحميل</string>
+    <string name="submitRegistrationButton">تم</string>
+</resources>

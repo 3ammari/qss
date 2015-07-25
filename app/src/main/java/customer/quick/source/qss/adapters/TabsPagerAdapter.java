@@ -1,15 +1,20 @@
-package customer.quick.source.qss;
+package customer.quick.source.qss.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+
+import customer.quick.source.qss.FindStation;
+import customer.quick.source.qss.Garage;
+import customer.quick.source.qss.Rewards;
 
 /**
  * Created by abdul-rahman on 04/07/15.
  */
 
 
-public class TabsPagerAdapter extends FragmentPagerAdapter {
+public class TabsPagerAdapter extends FragmentStatePagerAdapter {
     public TabsPagerAdapter(FragmentManager fm) {
         super(fm);
     }

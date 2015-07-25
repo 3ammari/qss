@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="@string/nameRegistration"
         android:ems="10"
         android:id="@+id/nameField"
         android:layout_alignParentTop="true"
@@ -26,7 +26,7 @@
         android:id="@+id/usenameField"
         android:layout_below="@+id/nameField"
         android:layout_centerHorizontal="true"
-        android:text="Email" />
+        android:text="@string/emailRegistration" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/submitRegistrationButton"
         android:id="@+id/submitButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -60,6 +60,6 @@
         android:id="@+id/locationField"
         android:layout_below="@+id/rePasswordField"
         android:layout_centerHorizontal="true"
-        android:text="Location" />
+        android:text="@string/locationRegistration" />
 
 </RelativeLayout>

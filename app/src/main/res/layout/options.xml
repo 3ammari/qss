@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Old Password"
+        android:text="@string/oldPassword"
         android:id="@+id/x"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -27,7 +27,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Password"
+        android:text="@string/newPassword"
         android:id="@+id/textView3"
         android:layout_below="@+id/oldPasswordField"
         android:layout_centerHorizontal="true" />
@@ -44,7 +44,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Re-enter new Password"
+        android:text="@string/reNewPassword"
         android:id="@+id/textView4"
         android:layout_below="@+id/newPasswordField"
         android:layout_centerHorizontal="true" />
@@ -61,7 +61,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
+        android:text="@string/changePasswordSubmit"
         android:id="@+id/submitButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

@@ -1,5 +1,6 @@
 package customer.quick.source.qss;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -21,20 +22,26 @@ import customer.quick.source.qss.adapters.GarageAdapter;
 public class Garage extends Fragment {
     ListView listView;
     List<Vehicles> vehiclesList;
-    ArrayList<String> vehiclesNames;
     Context context;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.designed_garage,container,false);
         context=super.getActivity();
-        vehiclesNames = new ArrayList<>();
         listView= (ListView) view.findViewById(R.id.listView2);
-        vehiclesList= Vehicles.listAll(Vehicles.class);
 
         /*for (int i = 0; i <vehiclesList.size() ; i++) {
             vehiclesNames.add(vehiclesList.get(i).getMake()+" "+vehiclesList.get(i).getModel()+" "+vehiclesList.get(i).getYear());
         }*/
        // ArrayAdapter arrayAdapter = new ArrayAdapter(Garage.this,android.R.layout.simple_list_item_1,android.R.id.text1,vehiclesNames);
+
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        vehiclesList= Vehicles.listAll(Vehicles.class);
         listView.setAdapter(new GarageAdapter(context,vehiclesList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -46,10 +53,10 @@ public class Garage extends Fragment {
             }
         });
 
-        return view;
+
     }
 
-   /* @Override
+    /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_garage);

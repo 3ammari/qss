@@ -18,9 +18,14 @@ public class Settings extends FragmentActivity {
     private ViewPager viewPager;
     public static FragmentActivity fb;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
+            finish();
+        }
         fb=this;
         Log.d("[settings activity]", "created");
         setContentView(R.layout.activity_settings);
@@ -31,6 +36,14 @@ public class Settings extends FragmentActivity {
         viewPager.setAdapter(tabsPagerAdapter);
 
         Log.d("[settings activity]","end of oncreate");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
+            finish();
+        }
     }
 
     @Override

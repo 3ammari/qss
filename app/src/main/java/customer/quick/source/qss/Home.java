@@ -1,26 +1,16 @@
 package customer.quick.source.qss;
 
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import android.os.Bundle;
-import android.text.method.CharacterPickerDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 
-import net.glxn.qrgen.android.QRCode;
-
-import customer.quick.source.qss.adapters.SettingsTabsAdapter;
+import customer.quick.source.qss.adapters.TabsPagerAdapter;
 
 
 public class Home extends FragmentActivity{
@@ -34,7 +24,10 @@ public class Home extends FragmentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fa=this;
+        fa=Home.this;
+        if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
+            finish();
+        }
         setContentView(R.layout.activity_home);
         startService(new Intent(Home.this,AlarmsService.class));
 
@@ -48,6 +41,14 @@ public class Home extends FragmentActivity{
 
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
+            finish();
+        }
     }
 
     @Override

@@ -27,8 +27,12 @@ public class Splash extends ActionBarActivity {
     String userID;
     AccountManager accountManager;
     AsyncHttpClient client= new AsyncHttpClient();
+    private static String TAG = "SPLASH_ACTIVITY";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG,getIntent().getComponent().getClassName());
+
+
         super.onCreate(savedInstanceState);
         if(GeneralUtilities.getFromPrefs(Splash.this,GeneralUtilities.SEASSION_KEY,false)){
             startService(new Intent(Splash.this,MyService.class));

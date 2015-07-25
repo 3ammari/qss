@@ -87,13 +87,13 @@ public class GeneralUtilities {
         if(prefs.contains(key)){return true;}
         else{return false;}
     }
-    public static void clearPrefsUrl(Context context,String url){
+    public static void clearPrefsAll(Context context){
         SharedPreferences prefs = new SecurePreferences(context);
         final SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(BASE_URL_KEY,url);
         editor.remove(USERNAME_KEY);
         editor.remove(PASSWORD_KEY);
         editor.remove(USERID_KEY);
+        editor.remove(SEASSION_KEY);
         editor.commit();
         Toast.makeText(context, "All prefs were cleared\n", Toast.LENGTH_LONG).show();
     }

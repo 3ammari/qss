@@ -33,10 +33,13 @@ public class Login extends ActionBarActivity {
     String baseUrl;
     AsyncHttpClient client = new AsyncHttpClient();
     GeneralUtilities generalUtilities=new GeneralUtilities(this);
+    private static String TAG="LOGIN_LOGCAT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, getIntent().getComponent().getClassName());
+
         setContentView(R.layout.login_designed);
         usernameField= (EditText) findViewById(R.id.usernameField);
         passwordField= (EditText) findViewById(R.id.passwordField);
@@ -44,6 +47,7 @@ public class Login extends ActionBarActivity {
         loginButton= (Button) findViewById(R.id.loginButton);
 
         baseUrl=GeneralUtilities.getFromPrefs(Login.this,GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/api/v1/client/");
+        Log.d(TAG,baseUrl);
         if (GeneralUtilities.checkFromPrefs(Login.this,GeneralUtilities.USERNAME_KEY)&&GeneralUtilities.checkFromPrefs(Login.this,GeneralUtilities.PASSWORD_KEY)){
             usernameField.setText(GeneralUtilities.getFromPrefs(Login.this,GeneralUtilities.USERNAME_KEY,""));
             passwordField.setText(GeneralUtilities.getFromPrefs(Login.this,GeneralUtilities.PASSWORD_KEY,""));
@@ -136,6 +140,14 @@ public class Login extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
+
+
+    /*@Override
+    public void onBackPressed() {
+        Settings.fb.finish();
+        Home.fa.finish();
+        this.finish();
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

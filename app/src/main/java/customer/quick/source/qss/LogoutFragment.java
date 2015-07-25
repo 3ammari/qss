@@ -24,13 +24,12 @@ Context context;
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GeneralUtilities.clearPrefsUrl(context,GeneralUtilities.USERID_KEY);
-                GeneralUtilities.clearPrefsUrl(context,GeneralUtilities.PASSWORD_KEY);
-                GeneralUtilities.clearPrefsUrl(context,GeneralUtilities.USERNAME_KEY);
-                GeneralUtilities.clearPrefsUrl(context,GeneralUtilities.SEASSION_KEY);
-                startActivity(new Intent(context, Login.class));
+                GeneralUtilities.clearPrefsAll(context);
+
+                startActivity(new Intent(context, Login.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK));
                 getActivity().finish();
                 Home.fa.finish();
+                Settings.fb.finish();
             }
         });
         return view;

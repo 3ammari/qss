@@ -59,7 +59,9 @@
         </activity>
         <activity
             android:name=".Login"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login"
+
+            >
         </activity>
         <activity
             android:name=".MainMenu"
@@ -85,7 +87,8 @@
 
         <activity
             android:name=".Registration"
-            android:label="@string/title_activity_registration" >
+            android:label="@string/title_activity_registration"
+            >
         </activity>
         <!--
         <activity
@@ -171,7 +174,6 @@
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
-            android:launchMode="singleInstance"
             >
 
 
@@ -179,7 +181,6 @@
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings"
-            android:launchMode="singleInstance"
             >
 
         </activity>
