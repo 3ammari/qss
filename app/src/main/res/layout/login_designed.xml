@@ -57,11 +57,12 @@
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:src="@drawable/app_logo"
+
         android:layout_alignParentTop="true"
         android:id="@+id/logo"
         android:layout_marginBottom="20dp"
         />
+    <!--android:src="@drawable/app_logo"-->
     <Button
         android:layout_width="150dp"
         android:layout_height="wrap_content"

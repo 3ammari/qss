@@ -14,4 +14,8 @@
     <string name="changePasswordSubmit">Submit</string>
     <string name="preferenceDialogMsg">you\'d like to be notified every?</string>
     <string name="preferencesDialogButton">OK</string>
+    <string name="clearNotificationButton">Clear</string>
+    <string name="notifications">Notifications</string>
+    <string name="notificationTitle">You have %s messages</string>
+    <string name="notificationContent">Tab to check</string>
 </resources>

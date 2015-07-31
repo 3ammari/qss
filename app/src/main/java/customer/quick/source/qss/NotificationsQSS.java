@@ -30,7 +30,7 @@ public class NotificationsQSS  {
 
     public void spawnNotification(String title,String msg,int id){
 
-        Intent intent = new Intent(context,FindStation.class);
+        Intent intent = new Intent(context,NotificationsActivity.class);
         PendingIntent pendingIntent= PendingIntent.getActivity(context, 0, intent, 0);
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -45,7 +45,7 @@ public class NotificationsQSS  {
 
   /* */ public void spawnServiceNotifier(String title ,String msg,int id){
 
-      Intent intent = new Intent(context,Home.class);
+      Intent intent = new Intent(context,NotificationsActivity.class);
       PendingIntent pendingIntent= PendingIntent.getActivity(context, 0, intent, 0);
       Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -59,7 +59,22 @@ public class NotificationsQSS  {
   }
 
     public void spawnBroadcastNotifier(String title,String msg,int id){
+        Intent intent = new Intent(context,NotificationsActivity.class);
+        PendingIntent pendingIntent= PendingIntent.getActivity(context, 0, intent, 0);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        Notification notification=builder.setContentTitle(title).setContentText(msg).setContentIntent(pendingIntent).setSmallIcon(R.drawable.ic_plusone_small_off_client).setSound(alarmSound).setNumber(id).setGroup(NOTIFICATION_GROUP).build();
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManagerCompat.notify(UNIQUE_NOTIFICATION_ID,notification);
+
+    }
+
+
+    public void spawnGeneralNotification(String title,String msg,String response,int id){
         Intent intent = new Intent(context,Home.class);
+        intent.putExtra("Action","Notification");
         PendingIntent pendingIntent= PendingIntent.getActivity(context, 0, intent, 0);
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 

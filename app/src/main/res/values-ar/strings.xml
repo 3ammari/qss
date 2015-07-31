@@ -39,4 +39,8 @@
     <string name="pointsTextView">النقاط</string>
     <string name="refreshRewardsButton">اعادة تحميل</string>
     <string name="submitRegistrationButton">تم</string>
+    <string name="clearNotificationButton">مسح</string>
+    <string name="notifications">اخطارات</string>
+    <string name="notificationContent">عرض</string>
+    <string name="notificationTitle">لديك %s رسالة</string>
 </resources>

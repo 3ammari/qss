@@ -29,7 +29,7 @@ public class Options extends Fragment {
     String newPassword;
     String newPassword2;
     Button submitButton;
-    Button qrShowButton;
+    /*Button qrShowButton;*/
     String baseUrl;
     String userID;
     AsyncHttpClient client=new AsyncHttpClient();

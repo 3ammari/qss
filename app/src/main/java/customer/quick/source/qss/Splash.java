@@ -38,8 +38,8 @@ public class Splash extends ActionBarActivity {
             startService(new Intent(Splash.this,MyService.class));
             startActivity(new Intent(Splash.this,Home.class));
             finish();
-        }
-        setContentView(R.layout.activity_splash);
+        }else
+        { setContentView(R.layout.activity_splash);
 
 /*        accountManager= AccountManager.get(Splash.this);
 
@@ -113,6 +113,7 @@ public class Splash extends ActionBarActivity {
         }
         else
         {
+            Log.d(TAG,"no network");
             Toast.makeText(Splash.this,"No Network",Toast.LENGTH_LONG).show();
             startActivity(new Intent(Splash.this,Login.class));
             finish();
@@ -120,7 +121,7 @@ public class Splash extends ActionBarActivity {
 
 
     }
-
+}
     /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
