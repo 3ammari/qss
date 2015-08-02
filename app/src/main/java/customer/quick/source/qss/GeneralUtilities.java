@@ -19,6 +19,7 @@ public class GeneralUtilities {
     public static final String PIN_KEY="PIN";
     public static final String KEY="KEY";
     public static final String SEASSION_KEY="SEASSION";
+    public static final String IMAGE_URI_KEY="IMAGE_URI";
     Context context;
 
     public static void saveToPrefs(Context context, String key, String value) {
