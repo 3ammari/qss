@@ -48,7 +48,7 @@ public class SettingsTabsAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-       titles=new String[]{context.getString(R.string.notification_frequencies),context.getString(R.string.change_password_tap_title),context.getString(R.string.qr_code_tap_title),context.getString(R.string.logout_tap_title)};
+       titles=new String[]{context.getResources().getString(R.string.notification_frequencies),context.getResources().getString(R.string.change_password_tap_title),context.getResources().getString(R.string.qr_code_tap_title),context.getString(R.string.logout_tap_title)};
 
         return titles[position];
     }

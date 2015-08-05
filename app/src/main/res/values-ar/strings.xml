@@ -47,7 +47,7 @@
     <string name="cameraButton">التقط صورة جديدة</string>
     <string name="xa">المراّب</string>
     <string name="days">" يوم  "</string>
-    <string name="notification_frequencies">Notifications Frequencies</string>
+    <string name="notification_frequencies">دورات التذكير</string>
     <string name="change_password_tap_title">تغيير كلمة السر</string>
     <string name="qr_code_tap_title">عرض الباركود</string>
     <string name="logout_tap_title">تسجيل خروج</string>
