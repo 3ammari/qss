@@ -36,9 +36,9 @@ public class Home extends ActionBarActivity{
         actionBar.show();
 
         fa=Home.this;
-        if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
+       /* if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
             finish();
-        }
+        }*/
         setContentView(R.layout.activity_home);
         startService(new Intent(Home.this,AlarmsService.class));
 
@@ -75,9 +75,9 @@ public class Home extends ActionBarActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
+        /*if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
             finish();
-        }
+        }*/
     }
 
     @Override

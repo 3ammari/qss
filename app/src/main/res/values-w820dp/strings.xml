@@ -18,4 +18,6 @@
     <string name="notifications">Notifications</string>
     <string name="notificationTitle">You have %s messages</string>
     <string name="notificationContent">Tab to check</string>
+    <string name="galleryButton">Choose from Gallery</string>
+    <string name="cameraButton">Take a new photo</string>
 </resources>

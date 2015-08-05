@@ -43,4 +43,6 @@
     <string name="notifications">اخطارات</string>
     <string name="notificationContent">عرض</string>
     <string name="notificationTitle">لديك %s رسالة</string>
+    <string name="galleryButton">Choose from Gallery</string>
+    <string name="cameraButton">Take a new photo</string>
 </resources>

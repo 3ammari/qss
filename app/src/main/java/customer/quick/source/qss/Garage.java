@@ -1,6 +1,5 @@
 package customer.quick.source.qss;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import customer.quick.source.qss.ObjectsORM.Vehicles;
@@ -47,7 +45,7 @@ public class Garage extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int vehicleID = vehiclesList.get(position).getVehicleID();
-                Intent intent = new Intent(context, VehicleStatus.class);
+                Intent intent = new Intent(context, SingleVehicleStatus.class);
                 intent.putExtra("vehicleID", vehicleID);
                 startActivity(intent);
             }

@@ -134,10 +134,7 @@
             android:exported="true" >
         </service>
 
-        <activity
-            android:name=".VehicleStatus"
-            android:label="@string/title_activity_vehicle_status" >
-        </activity>
+
 
         <!-- suppress AndroidDomInspection -->
         <!-- suppress AndroidDomInspection -->
@@ -185,6 +182,8 @@
         <activity
             android:name=".SingleVehicleStatus"
             android:label="@string/title_activity_single_vehicle_status" >
+
+
 
         </activity>
        <!-- <activity
