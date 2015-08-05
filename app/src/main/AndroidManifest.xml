@@ -21,9 +21,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -46,12 +45,10 @@
         <activity
             android:name=".Splash"
             android:label="@string/app_name" >
-
         </activity>
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login" >
-
         </activity>
         <activity
             android:name=".MainMenu"
@@ -134,8 +131,6 @@
             android:exported="true" >
         </service>
 
-
-
         <!-- suppress AndroidDomInspection -->
         <!-- suppress AndroidDomInspection -->
         <!-- suppress AndroidDomInspection -->
@@ -162,17 +157,17 @@
         -->
         <activity
             android:name=".Home"
-            android:label="@string/title_activity_home"
-            >
+            android:label="@string/title_activity_home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!--android:launchMode="singleTop"
+            <!--
+            android:launchMode="singleTop"
             >
--->
+            -->
 
         </activity>
         <activity
@@ -182,14 +177,23 @@
         <activity
             android:name=".SingleVehicleStatus"
             android:label="@string/title_activity_single_vehicle_status" >
-
-
-
         </activity>
-       <!-- <activity
+        <!--
+        <activity
             android:name=".NotificationsActivity"
             android:label="@string/title_activity_notifications" >
-        </activity>-->
+        </activity>
+        -->
+        <receiver
+            android:name=".receivers.NetworkListener"
+            android:enabled="true"
+            android:exported="true"
+            android:label="NetworkConnection">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

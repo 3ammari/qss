@@ -81,7 +81,11 @@ public class FindStation extends Fragment {
             public void onClick(View v) {
                 // MarkerOptions marker = new MarkerOptions().position(new LatLng(stationsList.get(selectedStationIndex).getStationLat(), stationsList.get(selectedStationIndex).getStationLong())).title(stationsList.get(selectedStationIndex).getStationName());
                 MarkerOptions marker = new MarkerOptions().position(new LatLng((double)stationsList.get(selectedStationIndex).getStationLat(),(double)stationsList.get(selectedStationIndex).getStationLong()));
-                map.addMarker(marker);
+                try {
+                    map.addMarker(marker);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                /* CameraUpdate center=
                         CameraUpdateFactory.newLatLng(new LatLng(latCurrent,
                                 lontCurrent));
