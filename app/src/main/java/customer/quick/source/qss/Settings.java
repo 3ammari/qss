@@ -23,16 +23,16 @@ public class Settings extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
+        /*if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
             finish();
-        }
+        }*/
         fb=this;
         Log.d("[settings activity]", "created");
         setContentView(R.layout.activity_settings);
         Log.d("[settings activity]", "layout sat");
         viewPager= (ViewPager) findViewById(R.id.pagerSetting);
         viewPager.setHorizontalScrollBarEnabled(true);
-        tabsPagerAdapter = new SettingsTabsAdapter(getSupportFragmentManager());
+        tabsPagerAdapter = new SettingsTabsAdapter(getSupportFragmentManager(),this);
         viewPager.setAdapter(tabsPagerAdapter);
 
         Log.d("[settings activity]","end of oncreate");
@@ -41,9 +41,9 @@ public class Settings extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
+       /* if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
             finish();
-        }
+        }*/
     }
 
     @Override

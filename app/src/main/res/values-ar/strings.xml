@@ -43,7 +43,12 @@
     <string name="notifications">اخطارات</string>
     <string name="notificationContent">عرض</string>
     <string name="notificationTitle">لديك %s رسالة</string>
-    <string name="galleryButton">Choose from Gallery</string>
-    <string name="cameraButton">Take a new photo</string>
-    <string name="xa">Garage</string>
+    <string name="galleryButton">اختر من الاستوديو</string>
+    <string name="cameraButton">التقط صورة جديدة</string>
+    <string name="xa">المراّب</string>
+    <string name="days">" يوم  "</string>
+    <string name="notification_frequencies">Notifications Frequencies</string>
+    <string name="change_password_tap_title">تغيير كلمة السر</string>
+    <string name="qr_code_tap_title">عرض الباركود</string>
+    <string name="logout_tap_title">تسجيل خروج</string>
 </resources>

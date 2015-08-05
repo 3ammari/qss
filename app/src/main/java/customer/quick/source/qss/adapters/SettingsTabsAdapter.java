@@ -8,15 +8,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import customer.quick.source.qss.LogoutFragment;
 import customer.quick.source.qss.Options;
 import customer.quick.source.qss.PreferencesActivity;
+import customer.quick.source.qss.R;
 import customer.quick.source.qss.UserIDShowQR;
 
 /**
  * Created by abdul-rahman on 05/07/15.
  */
 public class SettingsTabsAdapter extends FragmentPagerAdapter {
-    String[] titles={"Notifications Frequencies","Changing Password","USER ID QR Code","Log Out"};
-    public SettingsTabsAdapter(FragmentManager fm) {
+    Context context;
+    String[] titles;
+    public SettingsTabsAdapter(FragmentManager fm,Context context) {
         super(fm);
+        this.context= context;
     }
 
     @Override
@@ -45,6 +48,8 @@ public class SettingsTabsAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
+       titles=new String[]{context.getString(R.string.notification_frequencies),context.getString(R.string.change_password_tap_title),context.getString(R.string.qr_code_tap_title),context.getString(R.string.logout_tap_title)};
+
         return titles[position];
     }
 }

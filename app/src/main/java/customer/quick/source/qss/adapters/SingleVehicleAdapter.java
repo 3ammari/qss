@@ -27,13 +27,13 @@ import customer.quick.source.qss.ObjectsORM.ServicesTable;
 /**
  * Created by abdul-rahman on 08/07/15.
  */
-public class SingleVehilcleAdapter extends BaseAdapter {
+public class SingleVehicleAdapter extends BaseAdapter {
     private Context context;
     private List<RecentServices> recentServices;
     private List<ServicesTable> servicesTables;
     private int vehicleID;
 
-    public SingleVehilcleAdapter(Context context, List<RecentServices> recentServices) {
+    public SingleVehicleAdapter(Context context, List<RecentServices> recentServices) {
         this.context = context;
         this.vehicleID = vehicleID;
         this.recentServices = recentServices;
@@ -70,12 +70,12 @@ public class SingleVehilcleAdapter extends BaseAdapter {
         int daysAgo = Math.abs(periodCalulator(dateOfService));
         int daysRemaining= pref - daysAgo;
         serviceTypeTV.setText(serviceType);
-        daysAgoTV.setText(Integer.toString(daysAgo)+" days");
+        daysAgoTV.setText(Integer.toString(daysAgo) + context.getString(R.string.days));
 
         if (daysRemaining<1) {
-            daysRemainingTV.setText("0"+" days");
+            daysRemainingTV.setText("0"+context.getString(R.string.days));
         } else {
-            daysRemainingTV.setText(Integer.toString(daysRemaining)+" days");
+            daysRemainingTV.setText(Integer.toString(daysRemaining)+context.getString(R.string.days));
         }
         daysAgoTV.setTextColor(context.getResources().getColor(coloring(pref, daysRemaining)));
         daysRemainingTV.setHighlightColor(context.getResources().getColor(coloring(pref, daysRemaining)));

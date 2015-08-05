@@ -23,13 +23,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import customer.quick.source.qss.ObjectsORM.RecentServices;
-import customer.quick.source.qss.adapters.SingleVehilcleAdapter;
+import customer.quick.source.qss.adapters.SingleVehicleAdapter;
 
 
 public class SingleVehicleStatus extends ActionBarActivity {
@@ -121,7 +120,7 @@ public class SingleVehicleStatus extends ActionBarActivity {
         Log.d(TAG, String.valueOf(vehicleID));
         List<RecentServices> recentServicesList= RecentServices.find(RecentServices.class, "vehicle_id = ?", String.valueOf(vehicleID));
         Log.d(TAG, String.valueOf(recentServicesList.size()));
-        servicesListView.setAdapter(new SingleVehilcleAdapter(this,recentServicesList));
+        servicesListView.setAdapter(new SingleVehicleAdapter(this,recentServicesList));
 
 
     }
@@ -209,7 +208,7 @@ public class SingleVehicleStatus extends ActionBarActivity {
             Log.d(TAG, uri1.toString());
             imageView.setImageBitmap(bitmap);
             Log.d(TAG, context.getPackageCodePath());
-            GeneralUtilities.saveToPrefs(SingleVehicleStatus.this,GeneralUtilities.IMAGE_URI_KEY+String.valueOf(vehicleID),uri1.toString());
+            GeneralUtilities.saveToPrefs(SingleVehicleStatus.this, GeneralUtilities.IMAGE_URI_KEY + String.valueOf(vehicleID), uri1.toString());
         }
     }
 
