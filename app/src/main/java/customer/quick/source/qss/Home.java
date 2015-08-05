@@ -47,7 +47,7 @@ public class Home extends ActionBarActivity{
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setHorizontalScrollBarEnabled(true);
 
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+        mAdapter = new TabsPagerAdapter(getSupportFragmentManager(),this);
         viewPager.setAdapter(mAdapter);
         try {
             Log.d(TAG,action);

@@ -70,8 +70,13 @@ public class SingleVehilcleAdapter extends BaseAdapter {
         int daysAgo = Math.abs(periodCalulator(dateOfService));
         int daysRemaining= pref - daysAgo;
         serviceTypeTV.setText(serviceType);
-        daysAgoTV.setText(Integer.toString(daysAgo));
-        daysRemainingTV.setText(Integer.toString(daysRemaining));
+        daysAgoTV.setText(Integer.toString(daysAgo)+" days");
+
+        if (daysRemaining<1) {
+            daysRemainingTV.setText("0"+" days");
+        } else {
+            daysRemainingTV.setText(Integer.toString(daysRemaining)+" days");
+        }
         daysAgoTV.setTextColor(context.getResources().getColor(coloring(pref, daysRemaining)));
         daysRemainingTV.setHighlightColor(context.getResources().getColor(coloring(pref, daysRemaining)));
 

@@ -45,4 +45,5 @@
     <string name="notificationTitle">لديك %s رسالة</string>
     <string name="galleryButton">Choose from Gallery</string>
     <string name="cameraButton">Take a new photo</string>
+    <string name="xa">Garage</string>
 </resources>

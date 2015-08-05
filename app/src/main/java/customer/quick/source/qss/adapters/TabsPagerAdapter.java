@@ -1,5 +1,6 @@
 package customer.quick.source.qss.adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import customer.quick.source.qss.FindStation;
 import customer.quick.source.qss.Garage;
+import customer.quick.source.qss.R;
 import customer.quick.source.qss.Rewards;
 
 /**
@@ -15,24 +17,27 @@ import customer.quick.source.qss.Rewards;
 
 
 public class TabsPagerAdapter extends FragmentStatePagerAdapter {
-    public TabsPagerAdapter(FragmentManager fm) {
+    Context context;
+    public TabsPagerAdapter(FragmentManager fm,Context context) {
         super(fm);
+       this.context=context;
+
     }
 
+    String[] titles= new String[3];
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
 
-                return new Rewards();
+                return new Garage();
 
             case 1:
 
-                return new Garage();
-
+                return new FindStation();
             case 2:
 
-                return new FindStation();
+                return new Rewards();
 
             /*case 4:
 
@@ -50,6 +55,8 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return String.valueOf(position);
+        titles= new String[]{context.getResources().getString(R.string.title_activity_garage), context.getResources().getString(R.string.title_activity_find_station), context.getResources().getString(R.string.title_activity_rewards)};
+
+        return titles[position];
     }
 }
