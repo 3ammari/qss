@@ -2,6 +2,7 @@ package customer.quick.source.qss;
 
 
 
+// instead of using a main menu this is probably the best approach to have tabs i'll comment extensively on this class keep reading
 
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
@@ -31,11 +32,17 @@ public class Home extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // the string action is to determine if the Intent started this activity was coming from NOTIFICATIONS ,this variable will be used to determine to open the notification bar on not
         String action = getIntent().getStringExtra("Action");
         ActionBar actionBar = getSupportActionBar();
         actionBar.show();
 
         fa=Home.this;
+        //
+        //this IF CONDITION is to ensure that the user will not be able to view the data if he logs out because the seassion key is sat to false
+        // this activity will end before drawing the layout
+        // it is commented right now just for testing
+
        /* if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
             finish();
         }*/
@@ -43,13 +50,15 @@ public class Home extends ActionBarActivity{
         startService(new Intent(Home.this,AlarmsService.class));
 
 
-
+        //pager adapter declared in the xml layout
         viewPager = (ViewPager) findViewById(R.id.pager);
+        //setting the scrolling true
         viewPager.setHorizontalScrollBarEnabled(true);
-
+        // the adapter class is in the adapters package
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager(),this);
         viewPager.setAdapter(mAdapter);
         try {
+            // try catch block because the action might be null if not and equels Notifications it will show the notification bar
             Log.d(TAG,action);
             if (action.equals("Notification")){
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -60,7 +69,7 @@ public class Home extends ActionBarActivity{
                 ft.addToBackStack(null);
 
                 // Create and show the dialog.
-                DialogFragment newFragment = NotificationsActivity.newInstance(mStackLevel++);
+                DialogFragment newFragment = NotificationBar.newInstance(mStackLevel++);
                 newFragment.show(ft, "TAG");
                 /*NotificationsActivity notificationsActivity= new NotificationsActivity();
                 notificationsActivity.show(getSupportFragmentManager(),"TAG");*/
@@ -78,6 +87,8 @@ public class Home extends ActionBarActivity{
         /*if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
             finish();
         }*/
+
+        //same as the one in the beginning
     }
 
     @Override
@@ -108,8 +119,8 @@ public class Home extends ActionBarActivity{
 
         }
         if (id == R.id.notificationsMenu){
-            NotificationsActivity notificationsActivity = new NotificationsActivity();
-            notificationsActivity.show(getSupportFragmentManager(),"TAG");
+            NotificationBar notificationBar = new NotificationBar();
+            notificationBar.show(getSupportFragmentManager(),"TAG");
             return false;
         }
 

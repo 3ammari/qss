@@ -32,7 +32,8 @@ import java.util.List;
 
 import customer.quick.source.qss.adapters.RewardObject;
 import customer.quick.source.qss.adapters.RewardsAdapter;
-
+//this is where the user will be able to fetch the rewards and his points
+// it needs some improvements but it require connection with the server
 
 public class Rewards extends Fragment {
     String baseUrl;

@@ -25,7 +25,13 @@ import customer.quick.source.qss.ObjectsORM.Stations;
 import customer.quick.source.qss.ObjectsORM.Vehicles;
 import customer.quick.source.qss.ObjectsORM.RemindersPreferencesORM;
 
+//This service is responsible of fetching the data from the server ,all the data come from the server from different pages
+// several requests are being made every time this service is started
+// this service is usually called from the AlarmService when there's data coming from the server
+// this service is not sticky , means that if the android system shuts it down it will not bother starting it again
 
+// the local variable x is to ensure that there was no exception during the parsing and it will save the data ONLY and ONLY if x=0
+//x is incremented in the catch blocks, if no catch block is called then the data is correct in it is safe to drop old tables and save the new ones
 public class MyService extends Service {
     String baseUrl;
     String email;

@@ -50,14 +50,6 @@
             android:name=".Login"
             android:label="@string/title_activity_login" >
         </activity>
-        <activity
-            android:name=".MainMenu"
-            android:label="@string/title_activity_main_menu" >
-        </activity>
-        <activity
-            android:name=".StatusActivity"
-            android:label="@string/title_activity_status" >
-        </activity>
         <!--
         <activity
             android:name=".FindStation"
@@ -119,11 +111,6 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/sync_contacts" />
         </service>
-
-        <activity
-            android:name=".TestingActivity"
-            android:label="@string/title_activity_tesing" >
-        </activity>
 
         <service
             android:name=".AlarmsService"

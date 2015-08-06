@@ -11,6 +11,9 @@ import com.securepreferences.SecurePreferences;
 /**
  * Created by abdul-rahman on 17/06/15.
  */
+
+// this class is mainly for saving preferences ,am using the encrypted SharedPreferences
+
 public class GeneralUtilities {
     public static final String USERNAME_KEY = "USERNAME" ;
     public static final String PASSWORD_KEY = "PASSWORD" ;

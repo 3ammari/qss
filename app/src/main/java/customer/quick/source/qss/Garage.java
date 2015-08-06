@@ -27,15 +27,12 @@ public class Garage extends Fragment {
         context=super.getActivity();
         listView= (ListView) view.findViewById(R.id.listView2);
 
-        /*for (int i = 0; i <vehiclesList.size() ; i++) {
-            vehiclesNames.add(vehiclesList.get(i).getMake()+" "+vehiclesList.get(i).getModel()+" "+vehiclesList.get(i).getYear());
-        }*/
-       // ArrayAdapter arrayAdapter = new ArrayAdapter(Garage.this,android.R.layout.simple_list_item_1,android.R.id.text1,vehiclesNames);
 
 
         return view;
     }
-
+//made the population of the listview inside the onResume method because it improves if any Update occured you don't need to exit the application if you made
+    //inside the onResume unlike in the onCreate method
     @Override
     public void onResume() {
         super.onResume();
@@ -54,51 +51,5 @@ public class Garage extends Fragment {
 
     }
 
-    /* @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_garage);
-        vehiclesNames = new ArrayList<>();
-        listView= (ListView) findViewById(R.id.list);
-        vehiclesList= Vehicles.listAll(Vehicles.class);
 
-        *//*for (int i = 0; i <vehiclesList.size() ; i++) {
-            vehiclesNames.add(vehiclesList.get(i).getMake()+" "+vehiclesList.get(i).getModel()+" "+vehiclesList.get(i).getYear());
-        }*//*
-        ArrayAdapter arrayAdapter = new ArrayAdapter(Garage.this,android.R.layout.simple_list_item_1,android.R.id.text1,vehiclesNames);
-        listView.setAdapter(new GarageAdapter());
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String vehicleID= vehiclesList.get(position).getVehicleID();
-                Intent intent = new Intent(Garage.this,VehicleStatus.class);
-                intent.putExtra("vehicleID",vehicleID);
-                startActivity(intent);
-            }
-        });
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_garage, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 }

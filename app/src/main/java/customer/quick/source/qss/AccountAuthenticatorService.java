@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 
+// unused service meant for the Authenticator and Authentication IGNORE IT FOR NOW
 public class AccountAuthenticatorService extends Service {
 
     private static final String TAG = "AccountAuthenticatorService";

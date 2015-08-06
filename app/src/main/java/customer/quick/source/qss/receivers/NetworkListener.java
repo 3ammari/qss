@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import customer.quick.source.qss.AlarmsService;
 import customer.quick.source.qss.MyService;
-
+// this receiver will fire both of the Services to update the data whenever the network status is changed
 public class NetworkListener extends BroadcastReceiver {
     public NetworkListener() {
     }

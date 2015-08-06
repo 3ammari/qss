@@ -19,9 +19,9 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
+//there the user is able to change his password
 
-
-public class Options extends Fragment {
+public class ChangePasswordFragment extends Fragment {
     EditText oldPasswordField;
     EditText newPasswordField;
     EditText newPasswordField2;

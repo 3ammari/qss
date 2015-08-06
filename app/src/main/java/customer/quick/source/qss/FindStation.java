@@ -24,7 +24,7 @@ import java.util.List;
 
 import customer.quick.source.qss.ObjectsORM.Stations;
 
-//15.608177, 32.496330
+
 public class FindStation extends Fragment {
     public static FragmentManager fragmentManager;
     Button goButton;

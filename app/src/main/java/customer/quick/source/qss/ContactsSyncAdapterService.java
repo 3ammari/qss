@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.OperationCanceledException;
 import android.util.Log;
-
+//Ignore this for now!!
 public class ContactsSyncAdapterService extends Service {
     private static final String TAG = "ContactsSyncAdapterService";
     private static SyncAdapterImpl sSyncAdapter = null;

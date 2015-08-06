@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import customer.quick.source.qss.LogoutFragment;
-import customer.quick.source.qss.Options;
+import customer.quick.source.qss.ChangePasswordFragment;
 import customer.quick.source.qss.PreferencesActivity;
 import customer.quick.source.qss.R;
 import customer.quick.source.qss.UserIDShowQR;
@@ -28,7 +28,7 @@ public class SettingsTabsAdapter extends FragmentPagerAdapter {
            case 0:
                return new PreferencesActivity();
            case 1:
-               return new Options();
+               return new ChangePasswordFragment();
            case 2:
                return new UserIDShowQR();
            case 3:

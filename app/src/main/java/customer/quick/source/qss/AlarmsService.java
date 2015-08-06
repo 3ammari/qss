@@ -1,4 +1,5 @@
 package customer.quick.source.qss;
+// the service responsible of fetching the notifications and initiating the data updating
 
 import android.app.Service;
 import android.content.Context;
@@ -23,7 +24,6 @@ import java.util.TimerTask;
 import customer.quick.source.qss.ObjectsORM.NotificationORM;
 
 public class AlarmsService extends Service {
-    int filterNotificationID;
     AsyncHttpClient client = new AsyncHttpClient();
     String baseUrl;
     String userID;
@@ -31,8 +31,6 @@ public class AlarmsService extends Service {
     Handler handler;
     public static String TAG = "ALARM_SERVICE_TAG";
     Context context;
-    private static final String NOTIFICATION_GROUP="NOTIFICATION_GROUP";
-    private int UNIQUE_NOTIFICATION_ID=41232;
     String responseStringEx=null;
     int numberOfNotifications;
 
