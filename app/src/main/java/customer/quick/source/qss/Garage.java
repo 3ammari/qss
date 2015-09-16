@@ -37,6 +37,7 @@ public class Garage extends Fragment {
     public void onResume() {
         super.onResume();
         vehiclesList= Vehicles.listAll(Vehicles.class);
+
         listView.setAdapter(new GarageAdapter(context,vehiclesList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

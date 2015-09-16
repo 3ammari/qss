@@ -3,6 +3,7 @@ package customer.quick.source.qss;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -63,6 +64,8 @@ public class SingleVehicleStatus extends ActionBarActivity {
             Uri uri=Uri.parse(GeneralUtilities.getFromPrefs(SingleVehicleStatus.this,GeneralUtilities.IMAGE_URI_KEY+String.valueOf(vehicleID),"none"));
             imageView.setImageURI(uri);
         }catch (Exception e){
+            Resources resources= getResources();
+            imageView.setImageDrawable(resources.getDrawable(R.drawable.rsz_02acd9e93753acffa98fd7198c7ee4e4));
             e.printStackTrace();
         }
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +109,7 @@ public class SingleVehicleStatus extends ActionBarActivity {
 
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                        //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
 
                         startActivityForResult(cameraIntent, TAKE_PICTURE);
                     }
@@ -184,7 +187,18 @@ public class SingleVehicleStatus extends ActionBarActivity {
             }
         }
         if (requestCode==TAKE_PICTURE&&resultCode==RESULT_OK){
-            Bitmap bitmap= (Bitmap) data.getExtras().get("data");
+           // Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Log.d(TAG,data.toString());
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            /*InputStream inputStream = null;
+            try {
+                inputStream = this.getContentResolver().openInputStream((Uri) data.getData());
+                bitmap = BitmapFactory.decodeStream(inputStream);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+*/
 
             dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
             newdir= new File(dir);

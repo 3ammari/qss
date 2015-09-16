@@ -52,7 +52,7 @@ public class Registration extends ActionBarActivity {
                 password=passwordField.getText().toString();
                 password2=password2Field.getText().toString();
                 location=locationField.getText().toString();
-                baseUrl=GeneralUtilities.getFromPrefs(Registration.this,GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/api/v1/client/");
+                baseUrl=GeneralUtilities.getFromPrefs(Registration.this,GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/quick-services/public/api/v1/client/");
                 if (email.contains("@")&&(password.equals(password2))&&password.length()>=8){
                     RequestParams requestParams=new RequestParams();
                     requestParams.add("name",name);
