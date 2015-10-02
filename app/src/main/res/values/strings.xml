@@ -65,4 +65,5 @@
     <string name="change_password_tap_title">Changing Password</string>
     <string name="qr_code_tap_title">USER ID QR Code</string>
     <string name="logout_tap_title">Log Out</string>
+    <string name="title_activity_gcm_register">GcmRegister</string>
 </resources>

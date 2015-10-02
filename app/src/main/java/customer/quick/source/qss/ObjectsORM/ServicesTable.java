@@ -14,6 +14,11 @@ public class ServicesTable extends SugarRecord<ServicesTable> {
     public ServicesTable() {
     }
 
+    @Override
+    public String toString() {
+        return serviceType;
+    }
+
     public String getServiceType() {
         return serviceType;
     }

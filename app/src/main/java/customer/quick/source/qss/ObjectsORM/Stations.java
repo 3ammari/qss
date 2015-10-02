@@ -54,4 +54,9 @@ public class Stations extends SugarRecord<Stations> {
     public void setStationID(int stationID) {
         this.stationID = stationID;
     }
+
+    @Override
+    public String toString() {
+        return getStationName();
+    }
 }

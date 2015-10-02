@@ -25,6 +25,18 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
+    <!-- permissions to the GCM -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+
+    <permission
+        android:name="com.example.gcm.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
+
     <application
         android:name="com.orm.SugarApp"
         android:allowBackup="true"
@@ -46,6 +58,11 @@
         <activity
             android:name=".Splash"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -113,7 +130,6 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/sync_contacts" />
         </service>
-
         <service
             android:name=".AlarmsService"
             android:enabled="true"
@@ -146,13 +162,8 @@
         -->
         <activity
             android:name=".Home"
-            android:label="@string/title_activity_home" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
+            android:label="@string/title_activity_home"
+            android:launchMode="singleTop" >
 
             <!--
             android:launchMode="singleTop"
@@ -163,10 +174,16 @@
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home" />
         </activity>
         <activity
             android:name=".SingleVehicleStatus"
             android:label="@string/title_activity_single_vehicle_status" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home" />
         </activity>
         <!--
         <activity
@@ -178,11 +195,43 @@
             android:name=".receivers.NetworkListener"
             android:enabled="true"
             android:exported="true"
-            android:label="NetworkConnection">
+            android:label="NetworkConnection" >
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <!-- GCM Receiver -->
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="customer.quick.source.qss" />
+            </intent-filter>
+        </receiver>
+
+
+
+        <activity
+            android:name=".receivers.GcmRegister"
+            android:label="@string/title_activity_gcm_register" >
+
+        </activity>
+
+
+        <!--service -->
+
+        <service
+            android:name=".MyGcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
 
     </application>
 

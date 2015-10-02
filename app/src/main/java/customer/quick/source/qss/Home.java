@@ -31,6 +31,7 @@ public class Home extends ActionBarActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         // the string action is to determine if the Intent started this activity was coming from NOTIFICATIONS ,this variable will be used to determine to open the notification bar on not
         String action = getIntent().getStringExtra("Action");

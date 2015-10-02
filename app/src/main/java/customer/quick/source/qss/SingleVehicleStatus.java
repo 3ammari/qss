@@ -1,7 +1,9 @@
 package customer.quick.source.qss;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -9,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +53,10 @@ public class SingleVehicleStatus extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_single_vehicle_status);
+        ActionBar actionBar =getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         context=this;
         servicesListView = (ListView) findViewById(R.id.servicesListView);
         imageView = (ImageView) findViewById(R.id.vehicleImage);
@@ -68,7 +74,31 @@ public class SingleVehicleStatus extends ActionBarActivity {
             imageView.setImageDrawable(resources.getDrawable(R.drawable.rsz_02acd9e93753acffa98fd7198c7ee4e4));
             e.printStackTrace();
         }
+
         imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder photoDialog=new AlertDialog.Builder(context);
+                photoDialog.setCancelable(true);
+                photoDialog.setTitle("Assign a Photo");
+                photoDialog.setNegativeButton("Take a photo", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        takeNewPhoto();
+                    }
+                });
+                photoDialog.setPositiveButton("Choose a photo", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectAnExistingPhoto();
+                    }
+                });
+                photoDialog.create();
+                photoDialog.show();
+            }
+        });
+
+        /*imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog= new Dialog(SingleVehicleStatus.this);
@@ -82,7 +112,7 @@ public class SingleVehicleStatus extends ActionBarActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.setType("image/*");
+                        intent.setType("image");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PICTURE);
 
@@ -116,7 +146,7 @@ public class SingleVehicleStatus extends ActionBarActivity {
                 });
 
             }
-        });
+        });*/
 
         
 
@@ -128,28 +158,37 @@ public class SingleVehicleStatus extends ActionBarActivity {
 
     }
 
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_vehicle_status, menu);
-        return true;
+    private void selectAnExistingPhoto() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PICTURE);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    private void takeNewPhoto() {
+        dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
+        newdir= new File(dir);
+        newdir.mkdir();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }*/
+        String file = dir+timeStamp+".jpg";
+        File newFile = new File(file);
+        try {
+            newFile.createNewFile();
+            Log.d(TAG, "File created");
+
+        } catch (IOException e) {e.printStackTrace();}
+
+        Uri outputFileUri = Uri.fromFile(newFile);
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+        startActivityForResult(cameraIntent, TAKE_PICTURE);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

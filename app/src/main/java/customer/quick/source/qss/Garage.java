@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -21,12 +23,13 @@ public class Garage extends Fragment {
     ListView listView;
     List<Vehicles> vehiclesList;
     Context context;
+    ImageView imageView;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.designed_garage,container,false);
         context=super.getActivity();
         listView= (ListView) view.findViewById(R.id.listView2);
-
+        imageView= (ImageView) view.findViewById(R.id.garageImageView);
 
 
         return view;
@@ -38,16 +41,26 @@ public class Garage extends Fragment {
         super.onResume();
         vehiclesList= Vehicles.listAll(Vehicles.class);
 
-        listView.setAdapter(new GarageAdapter(context,vehiclesList));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int vehicleID = vehiclesList.get(position).getVehicleID();
-                Intent intent = new Intent(context, SingleVehicleStatus.class);
-                intent.putExtra("vehicleID", vehicleID);
-                startActivity(intent);
-            }
-        });
+        if (vehiclesList.size()>0) {
+            /*imageView.setVisibility(View.GONE);
+            ((BaseAdapter)(listView.getAdapter())).notifyDataSetChanged();*/
+            listView.setAdapter(new GarageAdapter(context,vehiclesList));
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    int vehicleID = vehiclesList.get(position).getVehicleID();
+                    Intent intent = new Intent(context, SingleVehicleStatus.class);
+                    intent.putExtra("vehicleID", vehicleID);
+                    startActivity(intent);
+                }
+            });
+        }
+        else{
+/*
+            listView.setVisibility(View.GONE);
+*/
+        }
 
 
     }

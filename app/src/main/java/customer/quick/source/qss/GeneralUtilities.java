@@ -23,6 +23,9 @@ public class GeneralUtilities {
     public static final String KEY="KEY";
     public static final String SEASSION_KEY="SEASSION";
     public static final String IMAGE_URI_KEY="IMAGE_URI";
+    public static final String SENT_TOKEN_TO_SERVER="SENT_TOKEN_TO_SERVER";
+    public static final String REGISTRATION_COMPLETE = "registrationComplete";
+
     Context context;
 
     public static void saveToPrefs(Context context, String key, String value) {

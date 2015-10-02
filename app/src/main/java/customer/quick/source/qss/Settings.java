@@ -3,6 +3,7 @@ package customer.quick.source.qss;
 import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +13,7 @@ import android.view.MenuItem;
 import customer.quick.source.qss.adapters.SettingsTabsAdapter;
 //same as home activity nothing different
 
-public class Settings extends FragmentActivity {
+public class Settings extends ActionBarActivity {
 
     private SettingsTabsAdapter tabsPagerAdapter;
     private ViewPager viewPager;
@@ -23,6 +24,9 @@ public class Settings extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar =getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         /*if (!(GeneralUtilities.getFromPrefs(this,GeneralUtilities.SEASSION_KEY,false))){
             finish();
         }*/

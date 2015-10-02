@@ -20,10 +20,13 @@ import java.util.ArrayList;
 
 import customer.quick.source.qss.ObjectsORM.Locations;
 import customer.quick.source.qss.ObjectsORM.RecentServices;
+import customer.quick.source.qss.ObjectsORM.RewardORM;
 import customer.quick.source.qss.ObjectsORM.ServicesTable;
 import customer.quick.source.qss.ObjectsORM.Stations;
 import customer.quick.source.qss.ObjectsORM.Vehicles;
 import customer.quick.source.qss.ObjectsORM.RemindersPreferencesORM;
+import customer.quick.source.qss.adapters.RewardObject;
+import customer.quick.source.qss.adapters.RewardsAdapter;
 
 //This service is responsible of fetching the data from the server ,all the data come from the server from different pages
 // several requests are being made every time this service is started
@@ -379,6 +382,48 @@ public class MyService extends Service {
                     }
                 }
             });
+
+            client.get(this,baseUrl+"rewards",null,new TextHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.d("[rewards]",Integer.toString(statusCode));
+
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                    Log.d("[rewards]",responseString);
+                    ArrayList<RewardORM> rewardORMs= new ArrayList<RewardORM>();
+                    int x=0;
+                    try {
+                        JSONArray jsonArray = new JSONArray(responseString);
+                        for (int i = 0; i <jsonArray.length() ; i++) {
+                            JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
+                            String title=jsonObject.getString("title");
+                            String cost= jsonObject.getString("cost");
+                            String description = jsonObject.getString("description");
+                            RewardORM rewardORM= new RewardORM();
+                            rewardORM.setTitle(title);
+                            rewardORM.setDescription(description);
+                            rewardORM.setPrice(Integer.parseInt(cost));
+                            rewardORMs.add(rewardORM);
+                        }
+;
+
+
+
+                    } catch (JSONException e) {
+                        x++;
+                        e.printStackTrace();
+                    }
+
+                    if (x==0){
+                        RewardORM.deleteAll(RewardORM.class);
+                        RewardORM.saveInTx(rewardORMs);
+                    }
+                }
+            });
+
 
 
         }

@@ -19,6 +19,8 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import customer.quick.source.qss.receivers.GCMClientManager;
+
 
 public class Registration extends ActionBarActivity {
     String location;
@@ -33,10 +35,19 @@ public class Registration extends ActionBarActivity {
     EditText locationField;
     Button submitButton;
     String baseUrl;
+    final String SENDER_ID="413600573845";
+    GCMClientManager gcmClientManager;
     AsyncHttpClient client = new AsyncHttpClient();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*gcmClientManager = new GCMClientManager(this,SENDER_ID);
+        gcmClientManager.registerIfNeeded(new GCMClientManager.RegistrationCompletedHandler() {
+            @Override
+            public void onSuccess(String registrationId, boolean isNewRegistration) {
+
+            }
+        });*/
         setContentView(R.layout.activity_registration);
         nameField= (EditText) findViewById(R.id.nameField);
         emailField= (EditText) findViewById(R.id.usenameField);

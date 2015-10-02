@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import customer.quick.source.qss.ObjectsORM.RewardORM;
 import customer.quick.source.qss.R;
 
 /**
@@ -16,8 +18,8 @@ import customer.quick.source.qss.R;
  */
 public class RewardsAdapter extends BaseAdapter {
     Context context;
-    List<RewardObject> rewardObjects;
-    public RewardsAdapter(Context context,List<RewardObject> rewardObjects ) {
+    List<RewardORM> rewardObjects;
+    public RewardsAdapter(Context context,List<RewardORM> rewardObjects ) {
         this.context=context;
         this.rewardObjects=rewardObjects;
     }
@@ -43,8 +45,8 @@ public class RewardsAdapter extends BaseAdapter {
         View row=inflater.inflate(R.layout.reward_single_row,parent,false);
         TextView name = (TextView) row.findViewById(R.id.rewardNameTV);
         TextView cost = (TextView) row.findViewById(R.id.costTV);
-        name.setText(rewardObjects.get(position).name);
-        cost.setText(Integer.toString(rewardObjects.get(position).cost));
+        name.setText(rewardObjects.get(position).getTitle());
+        cost.setText(Integer.toString(rewardObjects.get(position).getPrice()));
         return row;
     }
 

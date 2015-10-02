@@ -3,9 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rsz_02acd9e93753acffa98fd7198c7ee4e4"
+        android:id="@+id/garageImageView"
+        />
+
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/listView2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

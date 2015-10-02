@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 
 android {
     compileSdkVersion 21
@@ -30,4 +32,5 @@ dependencies {
     compile 'net.glxn.qrgen:android:2.0'
     compile 'net.danlew:android.joda:2.8.1'
     compile 'com.android.support:support-v4:22.0.0'
+
 }
