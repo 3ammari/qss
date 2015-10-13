@@ -40,6 +40,7 @@ public class MyService extends Service {
     String email;
     String userID;
     String password;
+    private static final String TAG = "MY_SERVICE";
     AsyncHttpClient client= new AsyncHttpClient();
     public MyService() {
     }
@@ -55,22 +56,25 @@ public class MyService extends Service {
 
         Toast.makeText(MyService.this,"Service started!",Toast.LENGTH_LONG).show();
         final boolean networkState= new GeneralUtilities(MyService.this).isNetworkConnected(MyService.this);
-        baseUrl = GeneralUtilities.getFromPrefs(this,GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/api/v1/client/");
+        baseUrl=GeneralUtilities.BASE_URL;
         email=GeneralUtilities.getFromPrefs(this,GeneralUtilities.USERNAME_KEY,"");
         password= GeneralUtilities.getFromPrefs(this,GeneralUtilities.PASSWORD_KEY,"");
         userID=GeneralUtilities.getFromPrefs(this,GeneralUtilities.USERID_KEY,"");
         if (networkState) {
 
-                //check if needed
+                client.addHeader("Authorization","Bearer " + GeneralUtilities.getFromPrefs(MyService.this,GeneralUtilities.TOKEN_KEY,null));
             client.get(MyService.this, baseUrl + "locations", null, new TextHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d("-=-=-=", Integer.toString(statusCode));
+                    Log.d(TAG, Integer.toString(statusCode));
+                    if (statusCode==401){
+                        GeneralUtilities.refreshToken(MyService.this);
+                    }
                 }
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                    Log.d("-=-=-=", responseString);
+                    Log.d(TAG, responseString);
                     /*try{
                         Locations.deleteAll(Locations.class);
                     }catch(Exception e){e.printStackTrace();}*/
@@ -110,6 +114,9 @@ public class MyService extends Service {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Log.d("*******",Integer.toString(statusCode));
+                    if (statusCode==401){
+                        GeneralUtilities.refreshToken(MyService.this);
+                    }
                 }
 
                 @Override
@@ -168,6 +175,9 @@ public class MyService extends Service {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Log.d("///////", String.valueOf(statusCode));
+                    if (statusCode==401){
+                        GeneralUtilities.refreshToken(MyService.this);
+                    }
                 }
 
                 @Override
@@ -230,6 +240,9 @@ public class MyService extends Service {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Log.d("[stations]", String.valueOf(statusCode));
+                    if (statusCode==401){
+                        GeneralUtilities.refreshToken(MyService.this);
+                    }
                 }
 
                 @Override
@@ -281,6 +294,9 @@ public class MyService extends Service {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Log.d("[99]",Integer.toString(statusCode));
+                    if (statusCode==401){
+                        GeneralUtilities.refreshToken(MyService.this);
+                    }
                 }
 
                 @Override
@@ -326,7 +342,9 @@ public class MyService extends Service {
             client.get(MyService.this, baseUrl + userID + "/preferences/reminders", null, new TextHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
+                    if (statusCode==401){
+                        GeneralUtilities.refreshToken(MyService.this);
+                    }
                 }
 
                 @Override
@@ -367,7 +385,9 @@ public class MyService extends Service {
             client.get(MyService.this,baseUrl+userID+"/points",null,new TextHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
+                    if (statusCode==401){
+                        GeneralUtilities.refreshToken(MyService.this);
+                    }
                 }
 
                 @Override
@@ -387,7 +407,9 @@ public class MyService extends Service {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Log.d("[rewards]",Integer.toString(statusCode));
-
+                    if (statusCode==401){
+                        GeneralUtilities.refreshToken(MyService.this);
+                    }
                 }
 
                 @Override

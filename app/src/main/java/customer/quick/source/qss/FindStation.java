@@ -79,12 +79,14 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
     ServicesTable serviceSelected;
     AsyncHttpClient client = new AsyncHttpClient();
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         context= getActivity();
+        client.addHeader("Authorization","Bearer " + GeneralUtilities.getFromPrefs(context,GeneralUtilities.TOKEN_KEY,null));
 
-        baseUrl = GeneralUtilities.getFromPrefs(context, GeneralUtilities.BASE_URL_KEY, "http://192.168.1.131/api/v1/client/");
-
+        baseUrl=GeneralUtilities.BASE_URL;
         locationListener=this;
 
         mLocationRequest = new LocationRequest();
@@ -358,7 +360,7 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
         mDialog.show();
     }
 
-    private ArrayList<TempStation> getMarkersForProduct(QssProduct qssProduct){
+    private ArrayList<TempStation> getMarkersForProduct(final QssProduct qssProduct){
         RequestParams params= new RequestParams();
         params.put("product_id", qssProduct.id);
         final ArrayList<TempStation> productsPositions=new ArrayList<>();
@@ -367,6 +369,13 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 dialog.dismiss();
+                if (statusCode == 401) {
+
+                    refreshToken(context);
+                    client.removeHeader("Authorization");
+                    client.addHeader("Authorization", "Bearer " + GeneralUtilities.getFromPrefs(context, GeneralUtilities.TOKEN_KEY, null));
+                    getMarkersForProduct(qssProduct);
+                }
             }
 
             @Override
@@ -401,13 +410,13 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
 
             @Override
             public void onFinish() {
-                drawMarkers(map,productsPositions);
+                drawMarkers(map, productsPositions);
             }
         });
    return productsPositions;
     }
 
-    private void getSelectedServiceMarkers2 (ServicesTable serviceSelected){
+    private void getSelectedServiceMarkers2 (final ServicesTable serviceSelected){
         RequestParams params = new RequestParams();
         params.put("service_type_id", serviceSelected.getServiceTypeID());
         client.setMaxRetriesAndTimeout(5, AsyncHttpClient.DEFAULT_SOCKET_TIMEOUT);
@@ -415,6 +424,14 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
         client.post(context,baseUrl + "stations/positions" , params, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, String.valueOf(statusCode) + " error");
+                if (statusCode==401){
+                    refreshToken(context);
+
+                    client.removeHeader("Authorization");
+                    client.addHeader("Authorization", "Bearer " + GeneralUtilities.getFromPrefs(context, GeneralUtilities.TOKEN_KEY, null));
+                    getSelectedServiceMarkers2(serviceSelected);
+                }
                 dialog.dismiss();
 
             }
@@ -422,7 +439,8 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 dialog.dismiss();
-                Log.d(TAG,responseString);
+
+                Log.d(TAG, responseString);
                 try {
                     JSONObject responseObject= new JSONObject(responseString);
                     JSONArray positions= new JSONArray(responseObject.getString("positions"));
@@ -497,5 +515,49 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
 
     }
 
+    public void refreshToken(final Context context){
+        Log.d("REFRESH_TOKEN", "invoked");
+        String username =GeneralUtilities.getFromPrefs(context, GeneralUtilities.USERNAME_KEY, null);
+        String password = GeneralUtilities.getFromPrefs(context, GeneralUtilities.PASSWORD_KEY, null);
+            AsyncHttpClient clientx = new AsyncHttpClient();
+            RequestParams requestParams= new RequestParams();
+            requestParams.put("username",username);
+            requestParams.put("password",password);
+            requestParams.add("grant_type", "password");
+            requestParams.add("client_id","client");
+            requestParams.add("scope","client");
+            requestParams.add("client_secret", "");
+            GeneralUtilities.checkFromPrefs(context,GeneralUtilities.TOKEN_KEY);
+            clientx.post(context, baseUrl +  "oauth/access_token", requestParams, new TextHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.d("REFRESH_TOKEN", String.valueOf(statusCode));
 
-}
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                    Log.d("REFRESH_TOKEN",responseString);
+                    try {
+                        JSONObject jsonObject= new JSONObject(responseString);
+                        if (jsonObject.has("error")){
+                            Toast.makeText(context,"Wrong username or password",Toast.LENGTH_LONG ).show();
+                        }
+                        else {
+                            String accessToken= jsonObject.getString("access_token");
+                            GeneralUtilities.saveToPrefs(context, GeneralUtilities.TOKEN_KEY, accessToken);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        }
+
+
+    }
+
+
+
+

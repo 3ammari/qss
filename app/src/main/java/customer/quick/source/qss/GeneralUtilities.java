@@ -4,9 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 import com.securepreferences.SecurePreferences;
+
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by abdul-rahman on 17/06/15.
@@ -25,7 +33,8 @@ public class GeneralUtilities {
     public static final String IMAGE_URI_KEY="IMAGE_URI";
     public static final String SENT_TOKEN_TO_SERVER="SENT_TOKEN_TO_SERVER";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
-
+    public static final String TOKEN_KEY = "TOKEN";
+    public static final String BASE_URL="http://192.168.1.131/api/v1/client/";
     Context context;
 
     public static void saveToPrefs(Context context, String key, String value) {
@@ -108,7 +117,7 @@ public class GeneralUtilities {
     {
         SharedPreferences prefs = new SecurePreferences(context);
         final SharedPreferences.Editor editor =prefs.edit();
-        editor.putString(PIN_KEY,pin);
+        editor.putString(PIN_KEY, pin);
         editor.commit();
     }
     public static boolean checkPin(Context context)
@@ -141,6 +150,50 @@ public class GeneralUtilities {
             return false;
         } else
             return true;
+    }
+
+    public static void refreshToken(final Context context){
+        Log.d("REFRESH_TOKEN","invoked");
+        final String username =getFromPrefs(context,USERNAME_KEY,null);
+        final String password = getFromPrefs(context,PASSWORD_KEY,null);
+        String baseUrl= getFromPrefs(context,BASE_URL_KEY,null);
+        if (username!=null && password!=null && baseUrl!=null){
+            AsyncHttpClient clientx = new AsyncHttpClient();
+            RequestParams requestParams= new RequestParams();
+            requestParams.put("username",username);
+            requestParams.put("password",password);
+            requestParams.add("grant_type","password");
+            requestParams.add("client_id","client");
+            requestParams.add("scope","client");
+            requestParams.add("client_secret", "");
+            clientx.post(context, baseUrl +  "oauth/access_token", requestParams, new TextHttpResponseHandler() {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.d("REFRESH_TOKEN", String.valueOf(statusCode));
+
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                    Log.d("REFRESH_TOKEN",responseString);
+                    try {
+                        JSONObject jsonObject= new JSONObject(responseString);
+                        if (jsonObject.has("error")){
+                            Toast.makeText(context,"Wrong username or password",Toast.LENGTH_LONG ).show();
+                        }
+                        else {
+                            String accessToken= jsonObject.getString("access_token");
+                            saveToPrefs(context,TOKEN_KEY,accessToken);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        }
+
+
     }
 
 }

@@ -64,8 +64,7 @@ public class Splash extends ActionBarActivity {
         email=GeneralUtilities.getFromPrefs(Splash.this,GeneralUtilities.USERNAME_KEY,"");
         password=GeneralUtilities.getFromPrefs(Splash.this,GeneralUtilities.PASSWORD_KEY,"");
 
-        baseURL=GeneralUtilities.getFromPrefs(Splash.this,GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/quick-services/public/api/v1/client/");
-
+        baseURL=GeneralUtilities.BASE_URL;
         Log.d("*******",userID+"\n"+email+"\n"+password+"\n"+baseURL);
         RequestParams requestParams= new RequestParams();
         requestParams.add("email",email);

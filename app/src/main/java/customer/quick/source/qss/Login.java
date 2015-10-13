@@ -19,6 +19,8 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.ParseException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,8 +47,7 @@ public class Login extends ActionBarActivity {
         passwordField= (EditText) findViewById(R.id.passwordField);
         registrationButton= (Button) findViewById(R.id.registrationButton);
         loginButton= (Button) findViewById(R.id.loginButton);
-
-        baseUrl=GeneralUtilities.getFromPrefs(Login.this,GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/api/v1/client/");
+        baseUrl=GeneralUtilities.BASE_URL;
         Log.d(TAG,baseUrl);
         if (GeneralUtilities.checkFromPrefs(Login.this,GeneralUtilities.USERNAME_KEY)&&GeneralUtilities.checkFromPrefs(Login.this,GeneralUtilities.PASSWORD_KEY)){
             usernameField.setText(GeneralUtilities.getFromPrefs(Login.this,GeneralUtilities.USERNAME_KEY,""));
@@ -61,55 +62,42 @@ public class Login extends ActionBarActivity {
 
                 if(generalUtilities.isNetworkConnected(Login.this)){
                     if (username.contains("@")&&password.length()>=8){
-                        requestParams.add("email",username);
+                        requestParams.add("username",username);
                         requestParams.add("password",password);
-                        client.post(Login.this,baseUrl+"login",requestParams,new TextHttpResponseHandler() {
+                        requestParams.add("grant_type","password");
+                        requestParams.add("client_id","client");
+                        requestParams.add("scope","client");
+                        requestParams.add("client_secret", "");
+
+
+                        client.post(Login.this, baseUrl + "oauth/access_token", requestParams, new TextHttpResponseHandler() {
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Log.d("====",Integer.toString(statusCode));
+                                Log.d("====", Integer.toString(statusCode));
                             }
 
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, String responseString) {
 
-                                Log.d("-=-=",responseString);
+                                Log.d("-=-=", responseString);
+
                                 try {
                                     JSONObject jsonObject= new JSONObject(responseString);
-                                    String status= jsonObject.getString("status");
-                                    String id= jsonObject.getString("id");
-                                    if (status.equals("true")){
-                                  /*      //beginning of AccountManager Integration
-                                        Account account = new Account(username,"QSS");
-                                        AccountManager am = AccountManager.get(Login.this);
-                                        boolean accountCreated = am.addAccountExplicitly(account, password, null);
-                                        Bundle extras = getIntent().getExtras();
-                                        if (extras != null) {
-                                            if (accountCreated) {  //Pass the new account back to the account manager
-                                                AccountAuthenticatorResponse response = extras.getParcelable(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
-                                                Bundle result = new Bundle();
-                                                result.putString(AccountManager.KEY_ACCOUNT_NAME, username);
-                                                result.putString(AccountManager.KEY_ACCOUNT_TYPE,"QSS");
-                                                result.putString("UserID",id);
-
-                                                response.onResult(result);
-                                            }
-                                            //GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.USERID_KEY,id);
-
-                                            startService(new Intent(Login.this,MyService.class));
-                                            startActivity(new Intent(Login.this,MainMenu.class));
-                                            finish();
-                                        } //End of AccountManager Integration
-*/
+                                    if (jsonObject.has("error")){
+                                        Toast.makeText(Login.this,"Wrong Credentials ..!!! ",Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        String accessToken=jsonObject.getString("access_token");
+                                        int clientID = jsonObject.getInt("client_id");
+                                        GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.USERID_KEY,clientID);
                                         GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.SEASSION_KEY,true);
                                         GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.USERNAME_KEY,username);
                                         GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.PASSWORD_KEY,password);
-                                        GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.USERID_KEY,id);
-                                        startService(new Intent(Login.this,MyService.class));
-                                        startActivity(new Intent(Login.this,Home.class));
+                                        GeneralUtilities.saveToPrefs(Login.this, GeneralUtilities.TOKEN_KEY, accessToken);
+                                        Log.d(TAG,accessToken);
+                                        Intent intent = new Intent(Login.this,Home.class);
+                                        startActivity(intent);
                                         finish();
-                                    }
-                                    else{
-                                        Toast.makeText(getApplicationContext(),"wrong credentials !!",Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -119,10 +107,10 @@ public class Login extends ActionBarActivity {
                         });
                     }
                     else{
-                        Toast.makeText(getApplicationContext(),"invalid email or password!!!",Toast.LENGTH_LONG).show();}
+                        Toast.makeText(Login.this,"invalid email or password!!!",Toast.LENGTH_LONG).show();}
                 }
                 else
-                {Toast.makeText(getApplicationContext(),"No Network",Toast.LENGTH_LONG).show();}
+                {Toast.makeText(Login.this,"No Network",Toast.LENGTH_LONG).show();}
             }
         });
         registrationButton.setOnClickListener(new View.OnClickListener() {
@@ -134,33 +122,5 @@ public class Login extends ActionBarActivity {
     }
 
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }*/
 
-
-    /*@Override
-    public void onBackPressed() {
-        Settings.fb.finish();
-        Home.fa.finish();
-        this.finish();
-    }*/
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 }

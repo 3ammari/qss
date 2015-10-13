@@ -18,8 +18,9 @@ import customer.quick.source.qss.R;
  */
 public class PreferencesAdapter extends BaseAdapter {
     Context context;
-    List<RemindersPreferencesORM> elements;
-    public PreferencesAdapter(Context context,List<RemindersPreferencesORM> list) {
+  //  List<RemindersPreferencesORM> elements;
+    List<ServicesTable> elements;
+    public PreferencesAdapter(Context context,List<ServicesTable> list) {
         this.context= context;
         this.elements =list;
     }
@@ -45,9 +46,18 @@ public class PreferencesAdapter extends BaseAdapter {
         View singlePref = inflater.inflate(R.layout.preferences_element,parent,false);
         TextView serviceTypeTV = (TextView) singlePref.findViewById(R.id.elementServiceTypeTV);
         TextView periodTV = (TextView) singlePref.findViewById(R.id.elementPeriodTV);
-        String serviceType = ServicesTable.find(ServicesTable.class,"service_type_id = ?",Integer.toString(elements.get(position).getServiceTypeID())).get(0).getServiceType();
-        periodTV.setText(Integer.toString(elements.get(position).getPeriod()));
-        serviceTypeTV.setText(serviceType);
+
+        //String serviceType = ServicesTable.find(ServicesTable.class,"service_type_id = ?",Integer.toString(elements.get(position).getServiceTypeID())).get(0).getServiceType();
+        String period = null;
+        try {
+            period = String.valueOf(RemindersPreferencesORM.find(RemindersPreferencesORM.class, "service_type_id = ?", String.valueOf(elements.get(position).getServiceTypeID())).get(0).getPeriod());
+        } catch (Exception e) {
+            if(period==null){period="not set";}
+
+            e.printStackTrace();
+        }
+        periodTV.setText(period);
+        serviceTypeTV.setText(elements.get(position).toString());
 
         return singlePref;
     }

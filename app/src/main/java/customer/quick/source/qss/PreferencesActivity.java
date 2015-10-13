@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -28,9 +29,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import customer.quick.source.qss.ObjectsORM.RemindersPreferencesORM;
+import customer.quick.source.qss.ObjectsORM.ServicesTable;
 import customer.quick.source.qss.adapters.PreferencesAdapter;
 
 
@@ -43,91 +46,56 @@ public class PreferencesActivity extends Fragment {
     Button okButton;
     AsyncHttpClient client= new AsyncHttpClient();
     private static final String TAG="PREFERECNCES_";
+    List<ServicesTable> services;
+    boolean save=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        services = new ArrayList<>();
+        services= ServicesTable.listAll(ServicesTable.class);
         context = this.getActivity();
         View view = inflater.inflate(R.layout.activity_preferences, container, false);
-        baseUrl = GeneralUtilities.getFromPrefs(context, GeneralUtilities.BASE_URL_KEY, "http://192.168.1.131/api/v1/client/");
+        baseUrl = GeneralUtilities.BASE_URL;
         userID = GeneralUtilities.getFromPrefs(context, GeneralUtilities.USERID_KEY, "");
         listView = (ListView) view.findViewById(R.id.prefsListView);
+
         okButton= (Button) view.findViewById(R.id.notifyServerButton);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestParams requestParams = new RequestParams();
-                List<RemindersPreferencesORM> newPrefs = RemindersPreferencesORM.listAll(RemindersPreferencesORM.class);
-                JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i < newPrefs.size(); i++) {
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("service_type_id", newPrefs.get(i).getServiceTypeID());
-                        jsonObject.put("period", newPrefs.get(i).getPeriod());
-                        jsonArray.put(jsonObject);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-                requestParams.put("preferences", jsonArray);
-                client.post(context, baseUrl + userID + "/preferences/reminders", requestParams, new TextHttpResponseHandler() {
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Log.d("[preferences]", String.valueOf(statusCode));
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        Log.d("[preferences]", responseString);
-                    }
-                });
+                save=true;
             }
         });
+
         List<RemindersPreferencesORM> remindersPreferencesORMs= RemindersPreferencesORM.listAll(RemindersPreferencesORM.class);
-        listView.setAdapter(new PreferencesAdapter(context, remindersPreferencesORMs));
-
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
-                final Dialog dialog = new Dialog(context);
-                dialog.setCancelable(true);
-                dialog.setContentView(R.layout.preferences_dialog);
-                final EditText frequencyField = (EditText) dialog.findViewById(R.id.frequencyField);
-                Button okButton = (Button) dialog.findViewById(R.id.prefsDialogButton);
-                dialog.show();
-                okButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        RemindersPreferencesORM preferencesORM = (RemindersPreferencesORM) parent.getItemAtPosition(position);
-                        Log.d("[zxcv]", String.valueOf(preferencesORM.getServiceTypeID()));
-                        try {
-                            int days = Integer.parseInt(frequencyField.getText().toString());
-                            preferencesORM.setPeriod(days);
-                            preferencesORM.save();
-                        } catch (NullPointerException | NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                        dialog.dismiss();
-                    }
-                });
+        /*ArrayAdapter<ServicesTable> serviceAdapter= new ArrayAdapter<ServicesTable>(context,android.R.layout.simple_list_item_1,services);
+        listView.setAdapter(serviceAdapter);*/
+        listView.setAdapter(new PreferencesAdapter(context, services));
 
 
-            }
-
-        });*/
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder prefsDialog=new AlertDialog.Builder(context);
-                final EditText input= new EditText(context);
+                AlertDialog.Builder prefsDialog = new AlertDialog.Builder(context);
+                final EditText input = new EditText(context);
                 input.setInputType(InputType.TYPE_CLASS_NUMBER);
                 prefsDialog.setView(input);
                 prefsDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        RemindersPreferencesORM preferencesORM= (RemindersPreferencesORM) parent.getItemAtPosition(position);
+                        ServicesTable service = (ServicesTable) parent.getItemAtPosition(position);
+
+                        RemindersPreferencesORM preferencesORM=null;
+
+                        try {
+                            preferencesORM = RemindersPreferencesORM.find(RemindersPreferencesORM.class, "service_type_id = ?", String.valueOf(service.getServiceTypeID())).get(0);
+                        } catch (Exception e) {
+                            preferencesORM = new RemindersPreferencesORM();
+                            preferencesORM.setServiceTypeID(service.getServiceTypeID());
+                            e.printStackTrace();
+                        }
+
                         Log.d(TAG, String.valueOf(preferencesORM.getServiceTypeID()));
                         preferencesORM.setPeriod(Integer.parseInt(input.getText().toString()));
                         preferencesORM.save();
@@ -146,7 +114,40 @@ public class PreferencesActivity extends Fragment {
         return view;
     }
 
+    private void sendToServer() {
+        RequestParams requestParams = new RequestParams();
+        List<RemindersPreferencesORM> newPrefs = RemindersPreferencesORM.listAll(RemindersPreferencesORM.class);
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < newPrefs.size(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("service_type_id", newPrefs.get(i).getServiceTypeID());
+                jsonObject.put("period", newPrefs.get(i).getPeriod());
+                jsonArray.put(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
+        }
+        requestParams.put("preferences", jsonArray);
+        client.post(context, baseUrl + userID + "/preferences/reminders", requestParams, new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("[preferences]", String.valueOf(statusCode));
+            }
 
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                Log.d("[preferences]", responseString);
+            }
+        });
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (save) {
+            sendToServer();
+        }
+    }
 }
