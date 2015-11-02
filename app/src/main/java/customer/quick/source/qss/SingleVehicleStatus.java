@@ -15,8 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,7 +41,7 @@ public class SingleVehicleStatus extends ActionBarActivity {
     Dialog dialog;
     int vehicleID;
     String dir;
-    File newdir;
+    File newDir;
     int count=0;
     private static final String TAG="VEHICLE_STATUS_TAG";
     Context context;
@@ -98,55 +96,6 @@ public class SingleVehicleStatus extends ActionBarActivity {
             }
         });
 
-        /*imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog= new Dialog(SingleVehicleStatus.this);
-                dialog.setContentView(R.layout.vehicle_photo_dialog_fragment);
-                dialog.setCancelable(true);
-                Button cameraButton = (Button) dialog.findViewById(R.id.cameraButton);
-                Button galleryButton = (Button) dialog.findViewById(R.id.openGalleryButton);
-                Log.d(TAG,"just before dialog.show()");
-                dialog.show();
-                galleryButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.setType("image");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PICTURE);
-
-                    }
-                });
-                cameraButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
-                        newdir= new File(dir);
-                        newdir.mkdir();
-                        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-
-
-                        String file = dir+timeStamp+".jpg";
-                        File newFile = new File(file);
-                        try {
-                            newFile.createNewFile();
-                            Log.d(TAG,"File created");
-
-                        } catch (IOException e) {e.printStackTrace();}
-
-                        Uri outputFileUri = Uri.fromFile(newFile);
-
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                        //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-
-                        startActivityForResult(cameraIntent, TAKE_PICTURE);
-                    }
-                });
-
-            }
-        });*/
 
         
 
@@ -167,8 +116,8 @@ public class SingleVehicleStatus extends ActionBarActivity {
 
     private void takeNewPhoto() {
         dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
-        newdir= new File(dir);
-        newdir.mkdir();
+        newDir = new File(dir);
+        newDir.mkdir();
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
 
@@ -201,8 +150,8 @@ public class SingleVehicleStatus extends ActionBarActivity {
 
                 imageView.setImageBitmap(bitmap);
                 dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
-                newdir= new File(dir);
-                newdir.mkdir();
+                newDir = new File(dir);
+                newDir.mkdir();
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
 
@@ -240,8 +189,8 @@ public class SingleVehicleStatus extends ActionBarActivity {
 */
 
             dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
-            newdir= new File(dir);
-            newdir.mkdir();
+            newDir = new File(dir);
+            newDir.mkdir();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
 
@@ -297,8 +246,8 @@ public class SingleVehicleStatus extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/picFolder/";
-                newdir= new File(dir);
-                newdir.mkdir();
+                newDir = new File(dir);
+                newDir.mkdir();
                 count++;
                 String file = dir+count+".jpg";
                 File newFile = new File(file);

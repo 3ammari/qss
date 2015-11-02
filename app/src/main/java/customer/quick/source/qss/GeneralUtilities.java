@@ -34,7 +34,8 @@ public class GeneralUtilities {
     public static final String SENT_TOKEN_TO_SERVER="SENT_TOKEN_TO_SERVER";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
     public static final String TOKEN_KEY = "TOKEN";
-    public static final String BASE_URL="http://192.168.1.131/api/v1/client/";
+    public static final String BASE_URL="http://192.168.1.8/api/v1/client/";
+    public static final String GCM_DEVICE_TOKEN_KEY="DEVICE_TOKEN_KEY";
     Context context;
 
     public static void saveToPrefs(Context context, String key, String value) {

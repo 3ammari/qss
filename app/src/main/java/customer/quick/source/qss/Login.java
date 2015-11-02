@@ -1,14 +1,11 @@
 package customer.quick.source.qss;
 
-import android.accounts.Account;
-import android.accounts.AccountAuthenticatorResponse;
-import android.accounts.AccountManager;
+
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +22,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+
+
 public class Login extends ActionBarActivity {
     EditText usernameField;
     EditText passwordField;
@@ -36,11 +35,14 @@ public class Login extends ActionBarActivity {
     AsyncHttpClient client = new AsyncHttpClient();
     GeneralUtilities generalUtilities=new GeneralUtilities(this);
     private static String TAG="LOGIN_LOGCAT";
+    public static final String ACTION_INITIALIZE="INITIALIZE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, getIntent().getComponent().getClassName());
+
+
 
         setContentView(R.layout.login_designed);
         usernameField= (EditText) findViewById(R.id.usernameField);
@@ -95,7 +97,9 @@ public class Login extends ActionBarActivity {
                                         GeneralUtilities.saveToPrefs(Login.this,GeneralUtilities.PASSWORD_KEY,password);
                                         GeneralUtilities.saveToPrefs(Login.this, GeneralUtilities.TOKEN_KEY, accessToken);
                                         Log.d(TAG,accessToken);
-                                        Intent intent = new Intent(Login.this,Home.class);
+                                       // Intent intent = new Intent(Login.this,Home.class);
+                                        Intent intent = new Intent(Login.this,Initialization.class);
+                                        intent.setAction(ACTION_INITIALIZE);
                                         startActivity(intent);
                                         finish();
                                     }

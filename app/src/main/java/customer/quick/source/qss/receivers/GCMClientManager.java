@@ -14,8 +14,17 @@ import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.http.Header;
+
+import customer.quick.source.qss.GeneralUtilities;
 
 public class GCMClientManager {
     // Constants
@@ -29,6 +38,7 @@ public class GCMClientManager {
     private String regid;
     private String projectNumber;
     private Activity activity;
+    SyncHttpClient client= new SyncHttpClient();
 
     public static abstract class RegistrationCompletedHandler {
         public abstract void onSuccess(String registrationId, boolean isNewRegistration);
@@ -44,6 +54,7 @@ public class GCMClientManager {
         this.activity = activity;
         this.projectNumber = projectNumber;
         this.gcm = GoogleCloudMessaging.getInstance(activity);
+        Log.d(TAG,"constructor executed");
     }
 
     // Register if needed or fetch from local store
@@ -73,15 +84,38 @@ public class GCMClientManager {
             @Override
             protected String doInBackground(Void... params) {
                 try {
+
+                    Log.d(TAG,"trying in the background");
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(getContext());
+                        Log.d(TAG,"initialized the GCM");
                     }
                     InstanceID instanceID = InstanceID.getInstance(getContext());
                     regid = instanceID.getToken(projectNumber, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+
                     Log.i(TAG, regid);
 
                     // Persist the regID - no need to register again.
                     storeRegistrationId(getContext(), regid);
+                    GeneralUtilities.saveToPrefs(activity, GeneralUtilities.GCM_DEVICE_TOKEN_KEY, regid);
+                    Log.d(TAG, "regId saved");
+                    GcmPubSub gcmPubSub= GcmPubSub.getInstance(activity);
+                    gcmPubSub.subscribe(regid,"/topics/client",null);
+                    Log.d(TAG,"subscribed to a topic");
+                    RequestParams requestParams=new RequestParams();
+                    requestParams.add("token", regid);
+                    client.addHeader("Authorization", "Bearer " + GeneralUtilities.getFromPrefs(activity, GeneralUtilities.TOKEN_KEY, ""));
+                    client.post(activity, GeneralUtilities.BASE_URL + GeneralUtilities.getFromPrefs(activity, GeneralUtilities.USERID_KEY, "") + "/notifications/register", requestParams, new TextHttpResponseHandler() {
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Log.d(TAG, String.valueOf(statusCode));
+                        }
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                            Log.d(TAG, responseString);
+                        }
+                    });
 
                 } catch (IOException ex) {
                     // If there is an error, don't just keep trying to register.
@@ -110,8 +144,12 @@ public class GCMClientManager {
      *         registration ID.
      */
     private String getRegistrationId(Context context) {
+
         final SharedPreferences prefs = getGCMPreferences(context);
-        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
+
+        //String registrationId = prefs.getString(PROPERTY_REG_ID, "");
+
+        String registrationId=GeneralUtilities.getFromPrefs(context,GeneralUtilities.GCM_DEVICE_TOKEN_KEY,"");
         if (registrationId.isEmpty()) {
             Log.i(TAG, "Registration not found.");
             return "";

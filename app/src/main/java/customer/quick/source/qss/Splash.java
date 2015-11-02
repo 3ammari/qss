@@ -19,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import customer.quick.source.qss.receivers.GCMClientManager;
+
 
 public class Splash extends ActionBarActivity {
     String email;
@@ -28,18 +30,23 @@ public class Splash extends ActionBarActivity {
     AccountManager accountManager;
     AsyncHttpClient client= new AsyncHttpClient();
     private static String TAG = "SPLASH_ACTIVITY";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG,getIntent().getComponent().getClassName());
+        Log.d(TAG, getIntent().getComponent().getClassName());
 
 
         super.onCreate(savedInstanceState);
-        if(GeneralUtilities.getFromPrefs(Splash.this,GeneralUtilities.SEASSION_KEY,false)){
-            startService(new Intent(Splash.this,MyService.class));
+        if (!GeneralUtilities.checkFromPrefs(this,GeneralUtilities.GCM_DEVICE_TOKEN_KEY)){
+
+        }
+        if(GeneralUtilities.getFromPrefs(Splash.this, GeneralUtilities.SEASSION_KEY, false)){
+            //startService(new Intent(Splash.this,MyService.class));
             startActivity(new Intent(Splash.this,Home.class));
             finish();
         }else
-        { setContentView(R.layout.activity_splash);
+        {
+            setContentView(R.layout.activity_splash);
 
 /*        accountManager= AccountManager.get(Splash.this);
 
@@ -70,6 +77,7 @@ public class Splash extends ActionBarActivity {
         requestParams.add("email",email);
         requestParams.add("password",password);
         if (networkStatus){
+
 
 
 
@@ -121,26 +129,5 @@ public class Splash extends ActionBarActivity {
 
     }
 }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_splash, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 }

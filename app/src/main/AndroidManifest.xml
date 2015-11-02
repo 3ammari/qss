@@ -23,23 +23,21 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
 
     <!-- permissions to the GCM -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
-
     <permission
-        android:name="com.example.gcm.permission.C2D_MESSAGE"
+        android:name="customer.quick.source.qss.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
+    <uses-permission android:name="customer.quick.source.qss.permission.C2D_MESSAGE" />
 
     <application
-        android:name="com.orm.SugarApp"
-
+        android:name=".QSS"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -56,6 +54,7 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="customer.quick.source.qss" />
 
+
         <activity
             android:name=".Splash"
             android:label="@string/app_name" >
@@ -64,7 +63,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Login"
@@ -203,28 +201,26 @@
         </receiver>
 
         <!-- GCM Receiver -->
-
+        <!--  android:name="com.google.android.gms.gcm.GcmReceiver"-->
         <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:name=".receivers.MyGcmReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <action android:name="com.google.android.c2dm.intent.GCM_RECEIVED_ACTION" />
 
                 <category android:name="customer.quick.source.qss" />
             </intent-filter>
         </receiver>
 
-
-
         <activity
             android:name=".receivers.GcmRegister"
             android:label="@string/title_activity_gcm_register" >
-
         </activity>
 
-
-        <!--service -->
+        <!-- service -->
 
         <service
             android:name=".MyGcmListenerService"
@@ -234,7 +230,19 @@
             </intent-filter>
         </service>
 
-    </application>
+        <activity
+            android:name=".Initialization"
+            android:label="@string/title_activity_initialization" >
 
+        </activity>
+
+        <service
+            android:name=".GoogleCloudMessagingSync"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+
+    </application>
 
 </manifest>

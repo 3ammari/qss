@@ -42,8 +42,8 @@ public class Garage extends Fragment {
         vehiclesList= Vehicles.listAll(Vehicles.class);
 
         if (vehiclesList.size()>0) {
-            /*imageView.setVisibility(View.GONE);
-            ((BaseAdapter)(listView.getAdapter())).notifyDataSetChanged();*/
+            imageView.setVisibility(View.GONE);
+            /*((BaseAdapter)(listView.getAdapter())).notifyDataSetChanged();*/
             listView.setAdapter(new GarageAdapter(context,vehiclesList));
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

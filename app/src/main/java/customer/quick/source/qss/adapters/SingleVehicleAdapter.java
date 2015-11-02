@@ -3,14 +3,16 @@ package customer.quick.source.qss.adapters;
 import android.content.Context;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import org.joda.time.Days;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
@@ -18,7 +20,6 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.List;
 
-import customer.quick.source.qss.GeneralUtilities;
 import customer.quick.source.qss.ObjectsORM.RemindersPreferencesORM;
 import customer.quick.source.qss.R;
 import customer.quick.source.qss.ObjectsORM.RecentServices;
@@ -30,14 +31,14 @@ import customer.quick.source.qss.ObjectsORM.ServicesTable;
 public class SingleVehicleAdapter extends BaseAdapter {
     private Context context;
     private List<RecentServices> recentServices;
-    private List<ServicesTable> servicesTables;
     private int vehicleID;
+    private static final String TAG="Single_VEHICLE_ADAPTER";
 
     public SingleVehicleAdapter(Context context, List<RecentServices> recentServices) {
         this.context = context;
         this.vehicleID = vehicleID;
         this.recentServices = recentServices;
-        this.servicesTables = ServicesTable.listAll(ServicesTable.class);
+
 
     }
 
@@ -67,10 +68,10 @@ public class SingleVehicleAdapter extends BaseAdapter {
         String serviceType = ServicesTable.find(ServicesTable.class,"service_type_id = ?", String.valueOf(recentServices.get(position).getServiceTypeID())).get(0).getServiceType();
         String dateOfService = recentServices.get(position).getDate();
         int pref=RemindersPreferencesORM.find(RemindersPreferencesORM.class,"service_type_id = ?", String.valueOf(recentServices.get(position).getServiceTypeID())).get(0).getPeriod();
-        int daysAgo = Math.abs(periodCalulator(dateOfService));
+        int daysAgo = periodCalculator(dateOfService);
         int daysRemaining= pref - daysAgo;
         serviceTypeTV.setText(serviceType);
-        daysAgoTV.setText(Integer.toString(daysAgo) + context.getString(R.string.days));
+        daysAgoTV.setText(Integer.toString(daysAgo) + context.getString(R.string.days_ago));
 
         if (daysRemaining<1) {
             daysRemainingTV.setText("0"+context.getString(R.string.days));
@@ -83,18 +84,18 @@ public class SingleVehicleAdapter extends BaseAdapter {
         return singleVehicle;
     }
 
-    public int periodCalulator(String date){
-
-        LocalDate today = new LocalDate();
+    public int periodCalculator(String date){
+        JodaTimeAndroid.init(context);
         LocalDateTime current = new LocalDateTime();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-mm-dd HH:mm:ss");
-        LocalDateTime serviceDate = dateTimeFormatter.parseLocalDateTime(date);
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-mm-dd");
-        /*LocalDateTime localDate = dtf.parseLocalDate(date);*/
 
-        Period period = new Period(serviceDate,current);
-        Period period1 = Period.fieldDifference(current,serviceDate);
-        return period1.getDays();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime serviceDate = LocalDateTime.parse(date,dateTimeFormatter);
+        Log.d(TAG,date);
+        Log.d(TAG,serviceDate.toString());
+        Days days=Days.daysBetween(serviceDate,current);
+
+
+        return days.getDays();
     }
 
     public int coloring(int pref ,int remainingDays){

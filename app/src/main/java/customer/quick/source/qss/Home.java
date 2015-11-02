@@ -48,7 +48,7 @@ public class Home extends ActionBarActivity{
             finish();
         }*/
         setContentView(R.layout.activity_home);
-        startService(new Intent(Home.this,AlarmsService.class));
+        //startService(new Intent(Home.this,AlarmsService.class));
 
 
         //pager adapter declared in the xml layout
