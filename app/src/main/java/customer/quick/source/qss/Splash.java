@@ -86,6 +86,7 @@ public class Splash extends ActionBarActivity {
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Log.d("-=-=-=",Integer.toString(statusCode));
                     startActivity(new Intent(Splash.this,Login.class));
+                    finish();
 
                 }
 

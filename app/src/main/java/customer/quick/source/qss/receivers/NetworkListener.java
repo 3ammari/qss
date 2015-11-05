@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import customer.quick.source.qss.AlarmsService;
 import customer.quick.source.qss.MyService;
-// this receiver will fire both of the Services to update the data whenever the network status is changed
+//this will fire the MyService service so it fetch the data from the server
 public class NetworkListener extends BroadcastReceiver {
     public NetworkListener() {
     }
@@ -21,17 +21,16 @@ public class NetworkListener extends BroadcastReceiver {
         NetworkInfo mobNetInfo = connectivityManager.getNetworkInfo(     ConnectivityManager.TYPE_MOBILE );
         if ( activeNetInfo != null )
         {
-            Toast.makeText( context, "Active Network Type : " + activeNetInfo.getTypeName(), Toast.LENGTH_SHORT ).show();
-            Intent intent1 = new Intent(context, AlarmsService.class);
-            context.startService(intent1);
+            //Toast.makeText( context, "Active Network Type : " + activeNetInfo.getTypeName(), Toast.LENGTH_SHORT ).show();
+
             Intent intent2 = new Intent(context, MyService.class);
             context.startService(intent2);
         }
         if( mobNetInfo != null )
         {
-            Toast.makeText( context, "Mobile Network Type : " + mobNetInfo.getTypeName(), Toast.LENGTH_SHORT ).show();
-            Intent intent1 = new Intent(context, AlarmsService.class);
-            context.startService(intent1);
+            //Toast.makeText( context, "Mobile Network Type : " + mobNetInfo.getTypeName(), Toast.LENGTH_SHORT ).show();
+            /*Intent intent1 = new Intent(context, AlarmsService.class);
+            context.startService(intent1);*/
             Intent intent2 = new Intent(context, MyService.class);
             context.startService(intent2);
         }

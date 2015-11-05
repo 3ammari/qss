@@ -8,6 +8,13 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmReceiver;
 
+import java.util.Calendar;
+import java.util.Random;
+
+import customer.quick.source.qss.MyService;
+import customer.quick.source.qss.NotificationsQSS;
+import customer.quick.source.qss.ObjectsORM.NotificationORM;
+
 public class MyGcmReceiver extends GcmReceiver{
     private static final String TAG ="MY_GCM_RECEIVER" ;
 
@@ -21,17 +28,39 @@ public class MyGcmReceiver extends GcmReceiver{
         if (action.equals("com.google.android.c2dm.intent.RECEIVE")){
             Log.d(TAG,"receive action");
             String message= intent.getExtras().getString("message");
+            String title=intent.getExtras().getString("title");
+            String type=intent.getExtras().getString("type");
+            if (type != null) {
+                if (type.equals("service")||type.equals("broadcast")||type.equals("newVehicle")||type.equals("reminder")){
+                    NotificationsQSS notificationsQSS= new NotificationsQSS(context);
+                    Log.d(TAG, "nqss created");
+                    notificationsQSS.gcmNotification(title, message);
+                    NotificationORM notificationObject=new NotificationORM();
+                    notificationObject.setMsg(message);
+                    notificationObject.setTitle(title);
+                    notificationObject.setType(type);
+                    notificationObject.save();
+                }
+                    context.startService(new Intent(context, MyService.class));
+
+            }
+
+
             try {
                 Log.d(TAG,message);
+                Log.d(TAG,title);
+                Log.d(TAG,type);
             }catch (NullPointerException e){
                 e.printStackTrace();
             }
         }
         if (action.equals("com.google.android.c2dm.intent.REGISTRATION")){
             Log.d(TAG,"registration action");
-            Bundle bundle= intent.getExtras();
+            String gcm_id=intent.getStringExtra("registration_id");
+
+
             try {
-                Log.d(TAG,bundle.toString());
+                Log.d(TAG, " caught gcm_id : " + gcm_id);
             }catch (Exception e){
                 e.printStackTrace();
             }

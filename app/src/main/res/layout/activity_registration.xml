@@ -5,7 +5,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="customer.quick.source.qss.Registration"
-    android:background="#0393A6">
+    android:background="#ffe9e0d6">
 
     <EditText
         android:layout_width="wrap_content"
@@ -47,12 +47,14 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
+
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/submitRegistrationButton"
         android:id="@+id/submitButton"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="#0393A6"/>
 
     <EditText
         android:layout_width="wrap_content"

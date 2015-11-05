@@ -67,7 +67,13 @@ public class SingleVehicleAdapter extends BaseAdapter {
         TextView daysRemainingTV = (TextView) singleVehicle.findViewById(R.id.remainingDaysTV);
         String serviceType = ServicesTable.find(ServicesTable.class,"service_type_id = ?", String.valueOf(recentServices.get(position).getServiceTypeID())).get(0).getServiceType();
         String dateOfService = recentServices.get(position).getDate();
-        int pref=RemindersPreferencesORM.find(RemindersPreferencesORM.class,"service_type_id = ?", String.valueOf(recentServices.get(position).getServiceTypeID())).get(0).getPeriod();
+        int pref= 0;
+        try {
+            pref = RemindersPreferencesORM.find(RemindersPreferencesORM.class, "service_type_id = ?", String.valueOf(recentServices.get(position).getServiceTypeID())).get(0).getPeriod();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
         int daysAgo = periodCalculator(dateOfService);
         int daysRemaining= pref - daysAgo;
         serviceTypeTV.setText(serviceType);
@@ -78,8 +84,8 @@ public class SingleVehicleAdapter extends BaseAdapter {
         } else {
             daysRemainingTV.setText(Integer.toString(daysRemaining)+context.getString(R.string.days));
         }
-        daysAgoTV.setTextColor(context.getResources().getColor(coloring(pref, daysRemaining)));
-        daysRemainingTV.setHighlightColor(context.getResources().getColor(coloring(pref, daysRemaining)));
+        /*daysAgoTV.setTextColor(context.getResources().getColor(coloring(pref, daysRemaining)));
+        daysRemainingTV.setHighlightColor(context.getResources().getColor(coloring(pref, daysRemaining)));*/
 
         return singleVehicle;
     }
@@ -98,7 +104,7 @@ public class SingleVehicleAdapter extends BaseAdapter {
         return days.getDays();
     }
 
-    public int coloring(int pref ,int remainingDays){
+    /*public int coloring(int pref ,int remainingDays){
         double ratio = remainingDays/pref;
 
         if (ratio>0.65D){
@@ -114,5 +120,5 @@ public class SingleVehicleAdapter extends BaseAdapter {
 
 
 
-    }
+    }*/
 }

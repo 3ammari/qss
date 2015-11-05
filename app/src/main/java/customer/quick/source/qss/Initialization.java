@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.loopj.android.http.AsyncHttpClient;
 
@@ -25,6 +26,8 @@ public class Initialization extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialization);
         String action =getIntent().getAction();
+        ImageView logoIV= new ImageView(this);
+        logoIV.setImageResource(R.drawable.app_logo);
         //if (action.equals(Login.ACTION_INITIALIZE)){
             Intent intent= new Intent(this,MyService.class);
             intent.setAction(Login.ACTION_INITIALIZE);

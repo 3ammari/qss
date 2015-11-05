@@ -26,10 +26,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import customer.quick.source.qss.ObjectsORM.RecentServices;
+import customer.quick.source.qss.ObjectsORM.ServicesTable;
 import customer.quick.source.qss.adapters.SingleVehicleAdapter;
 
 
@@ -76,7 +78,7 @@ public class SingleVehicleStatus extends ActionBarActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder photoDialog=new AlertDialog.Builder(context);
+                AlertDialog.Builder photoDialog = new AlertDialog.Builder(context);
                 photoDialog.setCancelable(true);
                 photoDialog.setTitle("Assign a Photo");
                 photoDialog.setNegativeButton("Take a photo", new DialogInterface.OnClickListener() {
@@ -100,7 +102,30 @@ public class SingleVehicleStatus extends ActionBarActivity {
         
 
         Log.d(TAG, String.valueOf(vehicleID));
-        List<RecentServices> recentServicesList= RecentServices.find(RecentServices.class, "vehicle_id = ?", String.valueOf(vehicleID));
+        List<RecentServices> recentServicesListOr= RecentServices.find(RecentServices.class, "vehicle_id = ? ", String.valueOf(vehicleID));
+        List<RecentServices> recentServicesList=new ArrayList<>();
+        List<RecentServices> mRecentList=new ArrayList<>();
+        List<ServicesTable> servicesTables= new ArrayList<>();
+        servicesTables=ServicesTable.listAll(ServicesTable.class);
+       // for (int w=0;w<recentServicesListOr.size();w++) {
+            for (int i = 0; i <servicesTables.size() ; i++) {
+                int service_type_id=servicesTables.get(i).getServiceTypeID();
+                mRecentList=RecentServices.find(RecentServices.class,"service_type_id = ? and vehicle_id = ?", String.valueOf(service_type_id), String.valueOf(vehicleID));
+                if (!mRecentList.isEmpty()){
+                    int latest=0;
+                    for (int j = 0; j <mRecentList.size() ; j++) {
+                        int test=mRecentList.get(j).getServiceID();
+                        if (test>latest){
+                            latest=test;
+                        }
+
+
+                    }
+                    recentServicesList.add(RecentServices.find(RecentServices.class, "service_id = ?", String.valueOf(latest)).get(0));
+                }
+
+            }
+       // }
         Log.d(TAG, String.valueOf(recentServicesList.size()));
         servicesListView.setAdapter(new SingleVehicleAdapter(this,recentServicesList));
 

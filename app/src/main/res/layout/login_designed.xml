@@ -3,13 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffe9e0d6"
-    android:layout_margin="4dp">
+    android:padding="4dp">
 
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/relativ_1"
-    android:layout_below="@+id/logo">
+    android:layout_centerInParent="true"
+    >
    <TextView
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
@@ -52,7 +53,7 @@
 
         />
 </RelativeLayout>
-    <ImageView
+   <!-- <ImageView
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_centerHorizontal="true"
@@ -61,28 +62,29 @@
         android:layout_alignParentTop="true"
         android:id="@+id/logo"
         android:layout_marginBottom="20dp"
-        />
+        />-->
     <!--android:src="@drawable/app_logo"-->
     <Button
-        android:layout_width="150dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/loginButton"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
         android:text="@string/loginButton"
+        android:layout_above="@+id/registrationButton"
         android:layout_centerHorizontal="true"
+        android:background="#0393A6"
         />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/registerButton"
         android:id="@+id/registrationButton"
+        android:textSize="12sp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="12sp" />
+        android:layout_centerHorizontal="true"
+        android:background="#0393A6"
+        android:layout_marginTop="2dp"/>
 
 
 </RelativeLayout>

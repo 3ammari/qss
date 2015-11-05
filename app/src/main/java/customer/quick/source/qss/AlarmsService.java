@@ -57,9 +57,9 @@ public class AlarmsService extends Service {
         context = this;
 
         notifcationObjects=new ArrayList<>();
-
+        Log.d(TAG,"ALARM SERVICE STARTED");
 //        Log.d(TAG,intent.getComponent().getClassName());
-        Toast.makeText(AlarmsService.this,"alarm service started",Toast.LENGTH_LONG).show();
+        //Toast.makeText(AlarmsService.this,"alarm service started",Toast.LENGTH_LONG).show();
         Log.d("[alarmservice]", "isRunning");
          baseUrl = GeneralUtilities.getFromPrefs(this,GeneralUtilities.BASE_URL_KEY,"http://192.168.1.131/api/v1/client/");
          userID= GeneralUtilities.getFromPrefs(this,GeneralUtilities.USERID_KEY,"");
@@ -73,7 +73,7 @@ public class AlarmsService extends Service {
 
          handler = new Handler();
         Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
+        /*TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 handler.post(new Runnable() {
@@ -108,7 +108,7 @@ public class AlarmsService extends Service {
 
                                         //notificationsQSS.spawnBroadcastNotifier("You have messages","check",id);
                                         //notifcationObjects.add(new NotificationObject(title,msg,type));
-                                       /* if (type.equals("service")){
+                                       *//* if (type.equals("service")){
                                             serviceList.add(new NotifcationObject(title,msg));
                                             notificationsQSS.spawnServiceNotifier(title,msg,id);
                                             startService(new Intent(AlarmsService.this, MyService.class));
@@ -127,7 +127,7 @@ public class AlarmsService extends Service {
                                             vehicleList.add(new NotifcationObject(title,msg));
                                             notificationsQSS.spawnBroadcastNotifier(title,msg,id);
                                             startService(new Intent(AlarmsService.this,MyService.class));
-                                        }*/
+                                        }*//*
 
 
 
@@ -149,7 +149,7 @@ public class AlarmsService extends Service {
                                 numberOfNotifications = NotificationORM.find(NotificationORM.class,"seen = ?","0").size();
                                 Log.d(TAG, String.valueOf(numberOfNotifications));
                                 String msg= String.format(getString(R.string.notificationTitle),String.valueOf(numberOfNotifications));
-                                notificationsQSS.spawnGeneralNotification(msg,getString(R.string.notificationContent),responseStringEx,0);
+                                notificationsQSS.spawnGeneralNotification(msg,getString(R.string.notificationContent),0);
                                 responseStringEx=null;
                                 numberOfNotifications=0;
                             }
@@ -160,7 +160,7 @@ public class AlarmsService extends Service {
                 });
             }
         };
-        timer.schedule(task, 0, 30000);
+        timer.schedule(task, 0, 30000);*/
 
 
         //add all the updating requests

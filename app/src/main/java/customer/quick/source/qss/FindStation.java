@@ -78,7 +78,7 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
     ArrayList<TempStation> selectedProductStationsList;
     ServicesTable serviceSelected;
     AsyncHttpClient client = new AsyncHttpClient();
-
+    ArrayAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -149,7 +149,7 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
         }
 
 
-        ArrayAdapter adapter=new ArrayAdapter(context, android.R.layout.simple_spinner_item, services);
+        adapter=new ArrayAdapter(context, android.R.layout.simple_spinner_item, services);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         servicesSpinner.setAdapter(adapter);
 
@@ -224,6 +224,7 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
             for (int i = 0; i <markers.size() ; i++) {
               map.addMarker(markers.get(i));
             }
+            defaultMarkers();
             // check if map is created successfully or not
             if (map==null) {
                 Toast.makeText(super.getActivity(),
@@ -249,6 +250,15 @@ public class FindStation extends Fragment implements GoogleApiClient.ConnectionC
 
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();services=ServicesTable.listAll(ServicesTable.class);
+        adapter=new ArrayAdapter(context, android.R.layout.simple_spinner_item, services);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        servicesSpinner.setAdapter(adapter);
     }
 
     @Override

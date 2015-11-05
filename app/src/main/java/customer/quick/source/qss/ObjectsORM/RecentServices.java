@@ -12,6 +12,16 @@ public class RecentServices extends SugarRecord<RecentServices> {
 
     int serviceTypeID;
 
+    int serviceID;
+
+    public int getServiceID() {
+        return serviceID;
+    }
+
+    public void setServiceID(int serviceID) {
+        this.serviceID = serviceID;
+    }
+
     public int getVehicleID() {
         return vehicleID;
     }

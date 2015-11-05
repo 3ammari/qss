@@ -60,7 +60,7 @@ public class MyService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
 
-        Toast.makeText(MyService.this,"Service started!",Toast.LENGTH_LONG).show();
+        /*Toast.makeText(MyService.this,"Service started!",Toast.LENGTH_LONG).show();*/
         final boolean networkState= new GeneralUtilities(MyService.this).isNetworkConnected(MyService.this);
         baseUrl=GeneralUtilities.BASE_URL;
         email=GeneralUtilities.getFromPrefs(this,GeneralUtilities.USERNAME_KEY,"");
@@ -84,7 +84,7 @@ public class MyService extends Service {
     private void fetchInSyncMode(boolean networkState) {
         if (networkState) {
 
-                syncClient.addHeader("Authorization","Bearer " + GeneralUtilities.getFromPrefs(MyService.this, GeneralUtilities.TOKEN_KEY, null));
+                syncClient.addHeader("Authorization", "Bearer " + GeneralUtilities.getFromPrefs(MyService.this, GeneralUtilities.TOKEN_KEY, null));
             syncClient.get(MyService.this, baseUrl + "locations", null, new TextHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -221,10 +221,21 @@ public class MyService extends Service {
                         for (int i = 0; i <jsonArray.length() ; i++) {
 
                             JSONObject jsonObject = new JSONObject(jsonArray.getString(i));
-                            String vehicleID=jsonObject.getString("id");
-                            JSONArray servicesObject= new JSONArray(jsonObject.getString("services"));
-                            JSONArray jsonArray1 = new JSONArray(servicesObject.toString());
-                            for (int j = 0; j <servicesObject.length() ; j++) {
+                            int vehicleID=jsonObject.getInt("vehicle_id");
+                            int serviceTypeID=jsonObject.getInt("service_type_id");
+                            int serviceID=jsonObject.getInt("id");
+                            String dateString=jsonObject.getString("created_at");
+                            //dateString = dateString.split(" ")[0];
+                            RecentServices recentServices= new RecentServices();
+                            recentServices.setDate(dateString);
+                            recentServices.setServiceTypeID(serviceTypeID);
+                            recentServices.setVehicleID(vehicleID);
+                            recentServices.setServiceID(serviceID);
+                            bufferList.add(recentServices);
+
+                            /*JSONArray servicesObject= new JSONArray(jsonObject.getString("services"));
+                            JSONArray jsonArray1 = new JSONArray(servicesObject.toString());*/
+                            /*for (int j = 0; j <servicesObject.length() ; j++) {
                                 JSONObject jsonObject1 = new JSONObject(servicesObject.getString(j));
                                 int serviceTypeID = jsonObject1.getInt("service_type_id");
                                 String date = jsonObject1.getString("created_at");
@@ -234,7 +245,7 @@ public class MyService extends Service {
                                 recentServices.setVehicleID(Integer.parseInt(vehicleID));
                                 recentServices.setDate(date);
                                 bufferList.add(recentServices);
-                            }
+                            }*/
 
 
 
@@ -499,6 +510,7 @@ public class MyService extends Service {
         @Override
         protected Void doInBackground(Void... params) {
             fetchInSyncMode(true);
+
             return null;
         }
     }
